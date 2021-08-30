@@ -1,0 +1,8 @@
+${AnsiColor.BLUE}
+ ____
+/ ___|  ___  _   _ _ __
+\___ \ / _ \| | | | '__|
+ ___) | (_) | |_| | |
+|____/ \___/ \__,_|_|
+ ${AnsiColor.BRIGHT_YELLOW}
+ ::: Sour (version:${application.version}) :::      Spring-Boot ${spring-boot.version}
