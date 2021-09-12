@@ -13,4 +13,6 @@ public interface LogsRecord {
     String LOGIN_SUCCESS = "登录成功";
 
     String LOGIN_ERROR = "登录失败";
+
+    String LOGOUT = "退出登录";
 }

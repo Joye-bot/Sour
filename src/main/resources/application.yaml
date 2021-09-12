@@ -26,7 +26,7 @@ spring:
     expose-request-attributes: false
     expose-session-attributes: false
     expose-spring-macro-helpers: false
-    suffix: .ftlh
+    suffix: .ftl
   servlet:
     multipart:
       max-file-size: 10MB

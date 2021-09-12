@@ -18,6 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
 @Table(name = "sour_logs")
