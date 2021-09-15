@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/admin/category")
 public class CategoryController {
 
+    /**
+     * 查询所有分类并渲染category页面
+     *
+     * @return {@link String}
+     */
     @GetMapping
     public String categories() {
         return "admin/admin_category";

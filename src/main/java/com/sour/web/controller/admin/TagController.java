@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/admin/tag")
 public class TagController {
 
+    /**
+     * 渲染标签管理页面
+     *
+     * @return {@link String}
+     */
     @GetMapping
     public String tags() {
         return "admin/admin_tag";

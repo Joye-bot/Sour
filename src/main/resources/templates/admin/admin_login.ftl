@@ -73,7 +73,7 @@
             const name = $('#login-name').val();
             const pwd = $('#login-pwd').val();
             if (name === "" || pwd === "") {
-                showMsg("请输入完整信息！", "info", 3000);
+                showMsg("请输入完整信息！", "info", 2000);
                 $('#btn-login').button('reset');
             } else {
                 $.ajax({
@@ -88,7 +88,7 @@
                         if (status === "true") {
                             Swal.fire({
                                 toast: true,
-                                timer: 3000,
+                                timer: 2000,
                                 text: "登录成功！",
                                 icon: 'success',
                                 position: 'top-end',
@@ -100,7 +100,7 @@
                             $('.card-body').addClass('animate__animated animation__shake');
                             Swal.fire({
                                 toast: true,
-                                timer: 3000,
+                                timer: 2000,
                                 text: "密码错误已达到5次，请10分钟后再试！",
                                 icon: 'error',
                                 position: 'top-end',
@@ -113,7 +113,7 @@
                             $('.card-body').addClass('animate__animated animation__shake');
                             Swal.fire({
                                 toast: true,
-                                timer: 3000,
+                                timer: 2000,
                                 text: '用户名或者密码错误！',
                                 icon: 'error',
                                 position: 'top-end',

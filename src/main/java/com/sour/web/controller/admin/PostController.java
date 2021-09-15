@@ -61,6 +61,11 @@ public class PostController {
         return "admin/admin_post";
     }
 
+    /**
+     * 处理跳转到新建文章页面
+     *
+     * @return {@link String}
+     */
     @GetMapping(value = "/new")
     public String newPost() {
         return "admin/admin_post_md_editor";

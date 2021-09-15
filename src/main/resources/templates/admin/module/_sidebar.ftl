@@ -69,7 +69,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a data-pjax="true" href="#" class="nav-link">
+                            <a data-pjax="true" href="/admin/page" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>所有页面</p>
                             </a>
@@ -78,7 +78,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a data-pjax="true" href="#" class="nav-link">
+                            <a data-pjax="true" href="/admin/page/new" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>新建页面</p>
                             </a>

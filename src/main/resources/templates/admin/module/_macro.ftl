@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${title!"Sour后台管理"}</title>
+        <!-- Theme style-->
         <link rel="stylesheet" href="/static/css/adminlte.min.css">
         <!-- pace -->
         <link rel="stylesheet" href="/static/plugins/pace/loading-bar.css">
