@@ -38,7 +38,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a data-pjax="true" href="#" class="nav-link">
+                            <a data-pjax="true" href="/admin/posts/new" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>写文章</p>
                             </a>

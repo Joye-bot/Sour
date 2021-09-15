@@ -60,4 +60,9 @@ public class PostController {
 
         return "admin/admin_post";
     }
+
+    @GetMapping(value = "/new")
+    public String newPost() {
+        return "admin/admin_post_md_editor";
+    }
 }

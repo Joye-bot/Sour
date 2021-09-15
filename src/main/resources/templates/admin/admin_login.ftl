@@ -6,9 +6,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sour后台登录</title>
+        <!-- Animate -->
         <link rel="stylesheet" href="/static/plugins/animate/animate.min.css">
-        <link rel="stylesheet" href="/static/plugins/toast/css/jquery.toast.min.css">
+        <!-- SweetAlert2 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+        <!-- Theme style -->
         <link rel="stylesheet" href="/static/css/adminlte.min.css">
+        <!-- Font Awesome -->
         <link rel="stylesheet" href="/static/plugins/fontawesome-free/css/all.min.css">
     </head>
     <body class="hold-transition login-page">
@@ -54,18 +58,22 @@
         </div>
     </div>
 
+    <!-- jQuery -->
     <script src="/static/plugins/jquery/jquery.min.js"></script>
-    <script src="/static/plugins/toast/js/jquery.toast.min.js"></script>
-    <script src="/static/js/adminlte.min.js"></script>
+    <!-- Bootstrap 4 -->
     <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/static/js/adminlte.min.js"></script>
     <script>
         function btn_login() {
             $('#btn-login').button('loading');
             const name = $('#login-name').val();
             const pwd = $('#login-pwd').val();
             if (name === "" || pwd === "") {
-                showMsg("请输入完整信息！", "info", 2000);
+                showMsg("请输入完整信息！", "info", 3000);
                 $('#btn-login').button('reset');
             } else {
                 $.ajax({
@@ -78,56 +86,40 @@
                     },
                     success: function (status) {
                         if (status === "true") {
-                            $.toast({
+                            Swal.fire({
+                                toast: true,
+                                timer: 3000,
                                 text: "登录成功！",
-                                heading: '提示',
                                 icon: 'success',
-                                showHideTransition: 'fade',
-                                allowToastClose: true,
-                                hideAfter: 1000,
-                                stack: 1,
-                                position: 'top-center',
-                                textAlign: 'left',
-                                loaderBg: '#ffffff',
-                                afterHidden: function () {
-                                    window.location.href = "/admin";
-                                }
+                                position: 'top-end',
+                                showConfirmButton: false
+                            }).then(function () {
+                                window.location.href = "/admin";
                             });
                         } else if (status === "disabled") {
                             $('.card-body').addClass('animate__animated animation__shake');
-                            $.toast({
+                            Swal.fire({
+                                toast: true,
+                                timer: 3000,
                                 text: "密码错误已达到5次，请10分钟后再试！",
-                                heading: '提示',
                                 icon: 'error',
-                                showHideTransition: 'fade',
-                                allowToastClose: true,
-                                hideAfter: 2000,
-                                stack: 1,
-                                position: 'top-center',
-                                textAlign: 'left',
-                                loader: true,
-                                loaderBg: '#ffffff',
-                                afterHidden: function () {
-                                    $('.card-body').removeClass('animate__animated animation__shake');
-                                }
+                                position: 'top-end',
+                                showConfirmButton: false
+                            }).then(function () {
+                                $('.card-body').removeClass('animate__animated animation__shake');
                             });
                             $('#btn-login').button('reset');
                         } else {
                             $('.card-body').addClass('animate__animated animation__shake');
-                            $.toast({
-                                text: "用户名或者密码错误！",
-                                heading: '提示',
+                            Swal.fire({
+                                toast: true,
+                                timer: 3000,
+                                text: '用户名或者密码错误！',
                                 icon: 'error',
-                                showHideTransition: 'fade',
-                                allowToastClose: true,
-                                hideAfter: 2000,
-                                stack: 1,
-                                position: 'top-center',
-                                textAlign: 'left',
-                                loaderBg: '#ffffff',
-                                afterHidden: function () {
-                                    $('.card-body').removeClass('animate__animated animation__shake');
-                                }
+                                position: 'top-end',
+                                showConfirmButton: false
+                            }).then(function () {
+                                $('.card-body').removeClass('animate__animated animation__shake');
                             });
                             $('#btn-login').button('reset');
                         }
@@ -136,25 +128,23 @@
             }
         }
 
+        /**
+         * Enter
+         */
         $(document).keydown(function (event) {
             if (event.keyCode === 13) {
                 btn_login();
             }
         });
 
-        function showMsg(text, icon, hideAfter) {
-            $.toast({
+        function showMsg(text, icon, timer) {
+            Swal.fire({
+                toast: true,
+                timer: timer,
                 text: text,
-                heading: '提示',
                 icon: icon,
-                showHideTransition: 'fade',
-                allowToastClose: true,
-                hideAfter: hideAfter,
-                stack: 5,
-                position: 'top-center',
-                textAlign: 'left',
-                loader: true,
-                loaderBg: '#ffffff'
+                position: 'top-end',
+                showConfirmButton: false
             });
         }
     </script>

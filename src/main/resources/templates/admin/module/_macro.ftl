@@ -24,6 +24,7 @@
 
     <!-- jQuery -->
     <script src="/static/plugins/jquery/jquery.min.js"></script>
+    <!-- adminlte -->
     <script src="/static/js/adminlte.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

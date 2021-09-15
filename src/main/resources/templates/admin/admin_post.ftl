@@ -57,76 +57,179 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <!--<div class="card-header">
-                                <h3 class="card-title">所有文章</h3>
 
-                            </div>-->
+                            <div class="card-header p-0 border-bottom-0">
+                               <ul class="nav nav-tabs">
+                                   <!-- 已发布 -->
+                                   <li class="nav-item">
+                                       <a class="nav-link active" id="published-tab" data-toggle="pill"
+                                          href="#published" role="tab" aria-controls="published" aria-selected="true">已发布</a>
+                                   </li>
 
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item"><a class="nav-link active" href="/admin/posts">已发布</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/admin/posts">草稿</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/admin/posts">回收站</a></li>
-                            </ul>
+                                   <!-- 草稿 -->
+                                   <li class="nav-item">
+                                       <a class="nav-link" id="draft-tab" data-toggle="pill" href="#draft" role="tab"
+                                          aria-controls="draft" aria-selected="false">草稿</a>
+                                   </li>
+
+                                   <!-- 回收站 -->
+                                   <li class="nav-item">
+                                       <a class="nav-link" id="recycle-bin-tab" data-toggle="pill" href="#recycle-bin"
+                                          role="tab" aria-controls="recycle-bin" aria-selected="false">回收站</a>
+                                   </li>
+                               </ul>
+                            </div>
+                            <!-- /.card-header -->
 
                             <div class="card-body table-responsive p-0" style="display: block;">
-                                <table class="table table-head-fixed text-nowrap text-center">
-                                    <thead>
-                                    <tr>
-                                        <th>标题</th>
-                                        <th>分类目录</th>
-                                        <th>标签</th>
-                                        <th>评论</th>
-                                        <th>日期</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="#" target="_blank">Vue基础教程</a>
-                                        </td>
+                                <div class="tab-content">
+                                    <!-- 已发布 -->
+                                    <div class="tab-pane fade show active" id="published" role="tabpanel"
+                                         aria-labelledby="published-tab" aria-selected="false">
+                                        <div class="form-group">
+                                            <table class="table table-head-fixed text-nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>标题</th>
+                                                    <th>分类目录</th>
+                                                    <th>标签</th>
+                                                    <th>评论</th>
+                                                    <th>日期</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" target="_blank">Vue基础教程</a>
+                                                    </td>
 
-                                        <td>JavaScript</td>
-                                        <td>vue</td>
-                                        <td>23</td>
-                                        <td>2021-07-22</td>
-                                        <td>
-                                            <!--<span class="label bg-primary">预览</span>
-                                            <span class="label bg-info">修改</span>
-                                            <span class="label bg-danger">丢弃</span>-->
+                                                    <td>JavaScript</td>
+                                                    <td>vue</td>
+                                                    <td>23</td>
+                                                    <td>2021-07-22</td>
+                                                    <td>
+                                                        <!--<span class="label bg-primary">预览</span>
+                                                        <span class="label bg-info">修改</span>
+                                                        <span class="label bg-danger">丢弃</span>-->
 
-                                            <a class="label bg-primary" href="/admin/post">预览</a>
-                                            <a class="label bg-info" href="/admin/post">修改</a>
-                                            <a class="label bg-danger" href="/admin/post">丢弃</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                        <a class="label bg-primary" href="/admin/post">预览</a>
+                                                        <a class="label bg-info" href="/admin/post">修改</a>
+                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="card-footer clearfix">
+                                            <h3 class="card-title">第1页</h3>
 
-                            <div class="card-footer clearfix">
-                                <h3 class="card-title">第1页</h3>
+                                            <div class="card-tools">
+                                                <ul class="pagination pagination-sm m-0 float-right">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">首页</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">上一页</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">下一页</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#">尾页</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="card-tools">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">首页</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">上一页</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">下一页</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">尾页</a>
-                                        </li>
-                                    </ul>
+                                    <!-- 草稿 -->
+                                    <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft-tab"
+                                         aria-selected="true">
+                                        <div class="form-group">
+                                            <table class="table table-head-fixed text-nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>标题</th>
+                                                    <th>分类目录</th>
+                                                    <th>标签</th>
+                                                    <th>评论</th>
+                                                    <th>日期</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" target="_blank">MySQL基础教程</a>
+                                                    </td>
+
+                                                    <td>JavaScript</td>
+                                                    <td>vue</td>
+                                                    <td>23</td>
+                                                    <td>2021-07-22</td>
+                                                    <td>
+                                                        <!--<span class="label bg-primary">预览</span>
+                                                        <span class="label bg-info">修改</span>
+                                                        <span class="label bg-danger">丢弃</span>-->
+
+                                                        <a class="label bg-primary" href="/admin/post">预览</a>
+                                                        <a class="label bg-info" href="/admin/post">修改</a>
+                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- 回收站 -->
+                                    <div class="tab-pane fade" id="recycle-bin" role="tabpanel"
+                                         aria-labelledby="recycle-bin-tab" aria-selected="true">
+                                        <div class="form-group">
+                                            <table class="table table-head-fixed text-nowrap">
+                                                <thead>
+                                                <tr>
+                                                    <th>标题</th>
+                                                    <th>分类目录</th>
+                                                    <th>标签</th>
+                                                    <th>评论</th>
+                                                    <th>日期</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" target="_blank">Java基础教程</a>
+                                                    </td>
+
+                                                    <td>JavaScript</td>
+                                                    <td>vue</td>
+                                                    <td>23</td>
+                                                    <td>2021-07-22</td>
+                                                    <td>
+                                                        <!--<span class="label bg-primary">预览</span>
+                                                        <span class="label bg-info">修改</span>
+                                                        <span class="label bg-danger">丢弃</span>-->
+
+                                                        <a class="label bg-primary" href="/admin/post">预览</a>
+                                                        <a class="label bg-info" href="/admin/post">修改</a>
+                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- /.card-body -->
+
                         </div>
                     </div>
                 </div>
+                <!-- /.row -->
 
             </div>
         </section>
