@@ -1,7 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
     <@head title="Sour后台管理-网站设置"></@head>
-    <link rel="stylesheet" href="/static/plugins/toast/css/jquery.toast.min.css">
     <!-- bootstrap-switch -->
     <link rel="stylesheet" href="/static/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
 

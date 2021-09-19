@@ -71,7 +71,6 @@
                                         <textarea style="display: none;"></textarea>
                                     </div>
                                 </div>
-                                -
                             </div>
                         </div>
                     </div>

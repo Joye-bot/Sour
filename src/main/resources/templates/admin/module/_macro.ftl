@@ -21,7 +21,7 @@
 </#macro>
 
 <#macro footer>
-    <script src="/static/plugins/pjax/jquery.pjax.js"></script>
+    <!--<script src="/static/plugins/pjax/jquery.pjax.js"></script>-->
 
     <!-- jQuery -->
     <script src="/static/plugins/jquery/jquery.min.js"></script>

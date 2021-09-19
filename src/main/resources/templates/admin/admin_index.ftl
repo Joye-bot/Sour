@@ -1,5 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理"></@head>
+<@head title="Sour后台管理-仪表盘"></@head>
 
 <div class="wrapper">
 
