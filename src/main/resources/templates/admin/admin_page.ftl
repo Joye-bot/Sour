@@ -38,8 +38,8 @@
                         <!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">首页</a></li>
-                                <li class="breadcrumb-item active">页面</li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="#">页面</a></li>
                                 <li class="breadcrumb-item active">所有页面</li>
                             </ol>
                             <!-- /.col -->
@@ -104,8 +104,8 @@
                                                         </td>
                                                         <td>可用</td>
                                                         <td>
-                                                            <a class="label bg-info" href="/admin/post">管理</a>
-                                                            <a class="label bg-primary" href="/admin/post">访问</a>
+                                                            <a data-pjax="true" class="btn btn-xs bg-info" href="/admin/page/links">管理</a>
+                                                            <a class="btn btn-xs bg-primary" href="/admin/post">访问</a>
                                                         </td>
                                                     </tr>
 
@@ -118,8 +118,8 @@
                                                         </td>
                                                         <td>可用</td>
                                                         <td>
-                                                            <a class="label bg-info" href="/admin/post">管理</a>
-                                                            <a class="label bg-primary" href="/admin/post">访问</a>
+                                                            <a class="btn btn-xs bg-info" href="/admin/post">管理</a>
+                                                            <a class="btn btn-xs bg-primary" href="/admin/post">访问</a>
                                                         </td>
                                                     </tr>
 
@@ -132,8 +132,8 @@
                                                         </td>
                                                         <td>可用</td>
                                                         <td>
-                                                            <a class="label bg-info" href="/admin/post">管理</a>
-                                                            <a class="label bg-primary" href="/admin/post">访问</a>
+                                                            <a class="btn btn-xs bg-info" href="/admin/post">管理</a>
+                                                            <a class="btn btn-xs bg-primary" href="/admin/post">访问</a>
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -164,9 +164,9 @@
                                                         <td>32</td>
                                                         <td>2021-09-14 13:32</td>
                                                         <td>
-                                                            <a class="label bg-info" href="/admin/post">编辑</a>
-                                                            <a class="label bg-danger" href="/admin/post">回收</a>
-                                                            <a class="label bg-primary" href="/admin/post">设置</a>
+                                                            <a class="btn btn-xs bg-info" href="/admin/post">编辑</a>
+                                                            <a class="btn btn-xs bg-danger" href="/admin/post">回收</a>
+                                                            <a class="btn btn-xs bg-primary" href="/admin/post">设置</a>
                                                         </td>
                                                     </tr>
                                                     </tbody>

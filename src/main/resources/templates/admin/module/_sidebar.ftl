@@ -17,7 +17,7 @@
 
                 <!-- 仪表盘 -->
                 <li class="nav-item">
-                    <a href="/admin" class="nav-link">
+                    <a data-pjax="true" href="/admin" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>仪表盘</p>
                     </a>
@@ -25,34 +25,34 @@
 
                 <!-- 文章 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a data-pjax="true" href="#" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>文章 <i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/posts" class="nav-link">
+                            <a data-pjax="true" href="/admin/posts" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>所有文章</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="/admin/posts/new" class="nav-link">
+                            <a data-pjax="false" href="/admin/posts/new" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>写文章</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="/admin/category" class="nav-link">
+                            <a data-pjax="true" href="/admin/category" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>分类目录</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="/admin/tag" class="nav-link">
+                            <a data-pjax="true" href="/admin/tag" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>标签</p>
                             </a>
@@ -62,14 +62,14 @@
 
                 <!-- 页面 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a data-pjax="true" href="#" class="nav-link">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>页面<i class="fas fa-angle-left right"></i></p>
                     </a>
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/page" class="nav-link">
+                            <a data-pjax="true" href="/admin/page" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>所有页面</p>
                             </a>
@@ -78,7 +78,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/page/new" class="nav-link">
+                            <a data-pjax="false" href="/admin/page/new" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>新建页面</p>
                             </a>
@@ -88,7 +88,7 @@
 
                 <!-- 附件 -->
                 <li class="nav-item">
-                    <a href="/admin/attachments" class="nav-link">
+                    <a data-pjax="true" href="/admin/attachments" class="nav-link">
                         <i class="nav-icon fas fa-image"></i>
                         <p>附件</p>
                     </a>
@@ -96,7 +96,7 @@
 
                 <!-- 评论 -->
                 <li class="nav-item">
-                    <a href="/admin/comments" class="nav-link">
+                    <a data-pjax="true" href="/admin/comments" class="nav-link">
                         <i class="nav-icon fas fa-comment"></i>
                         <p>评论<span class="badge badge-info right">4</span></p>
                     </a>
@@ -104,14 +104,14 @@
 
                 <!-- 外观 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a data-pjax="true" href="#" class="nav-link">
                         <i class="nav-icon fas fa-tshirt"></i>
                         <p>外观<i class="fas fa-angle-left right"></i></p>
                     </a>
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/themes" class="nav-link">
+                            <a data-pjax="true" href="/admin/themes" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>主题</p>
                             </a>
@@ -120,7 +120,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/menus" class="nav-link">
+                            <a data-pjax="true" href="/admin/menus" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>菜单</p>
                             </a>
@@ -129,7 +129,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/themes/editor" class="nav-link">
+                            <a data-pjax="false" href="/admin/themes/editor" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>主题编辑</p>
                             </a>
@@ -139,14 +139,14 @@
 
                 <!-- 用户 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a data-pjax="true" href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>用户<i class="fas fa-angle-left right"></i></p>
                     </a>
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/profile" class="nav-link">
+                            <a data-pjax="true" href="/admin/profile" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>个人资料</p>
                             </a>
@@ -156,14 +156,14 @@
 
                 <!-- 系统 -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a data-pjax="true" href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>系统<i class="fas fa-angle-left right"></i></p>
                     </a>
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/option" class="nav-link">
+                            <a data-pjax="true" href="/admin/option" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>网站设置</p>
                             </a>
@@ -172,7 +172,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/backup" class="nav-link">
+                            <a data-pjax="true" href="/admin/backup" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>备份恢复</p>
                             </a>

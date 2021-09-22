@@ -67,4 +67,20 @@ public interface UserService {
      * @param enable 启用
      */
     void updateUserLoginEnable(String enable);
+
+    /**
+     * 保存个人资料
+     *
+     * @param user 用户
+     */
+    void saveByUser(User user);
+
+    /**
+     * 根据用户编号和密码查询
+     *
+     * @param userId   用户编号
+     * @param userPass 用户密码
+     * @return {@link User}
+     */
+    User findByUserIdAndUserPass(Long userId, String userPass);
 }

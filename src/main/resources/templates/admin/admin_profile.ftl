@@ -1,6 +1,8 @@
 <#compress >
     <#include "module/_macro.ftl">
     <@head title="Sour后台管理-个人资料"></@head>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
     <div class="wrapper">
 
@@ -22,8 +24,8 @@
                         <!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">首页</a></li>
-                                <li class="breadcrumb-item active">用户</li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="#">用户</a></li>
                                 <li class="breadcrumb-item active">个人资料</li>
                             </ol>
                             <!-- /.col -->
@@ -119,46 +121,60 @@
 
                                         <!-- 基本资料 -->
                                         <div class="tab-pane fade show active" id="basic-information" role="tabpanel"
-                                             aria-labelledby="basic-information-tab" aria-selected="false">
+                                             aria-labelledby="basic-information-tab" aria-selected="true">
+                                            <input type="hidden" name="userId" value="${user.userId!}">
+                                            <input type="hidden" id="userPass" name="userPass" value="${user.userPass!}">
                                             <div class="form-group">
                                                 <label for="userName">* 用户名：</label>
-                                                <input type="text" class="form-control" id="userName">
+                                                <input type="text" class="form-control" id="userName"
+                                                       name="userName" value="${user.userName!}">
                                             </div>
                                             <div class="form-group">
-                                                <label for="displayName">* 昵称：</label>
-                                                <input type="text" class="form-control" id="displayName">
+                                                <label for="userDisplayName">* 昵称：</label>
+                                                <input type="text" class="form-control" id="userDisplayName"
+                                                       name="userDisplayName" value="${user.userDisplayName!}">
                                             </div>
                                             <div class="form-group">
-                                                <label for="E-mail">* 电子邮箱：</label>
-                                                <input type="email" class="form-control" id="E-mail">
+                                                <label for="userEmail">* 电子邮箱：</label>
+                                                <input type="email" class="form-control" id="userEmail"
+                                                       name="userEmail"
+                                                       value="${user.userEmail!}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="userDesc">个人说明：</label>
                                                 <textarea class="form-control" rows="5" id="userDesc"
-                                                          style="resize: none;"></textarea>
+                                                          style="resize: none;">${user.userDesc!}</textarea>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                                                <button type="submit" class="btn btn-primary btn-sm"
+                                                        onclick="saveUser('basic-information');">保存
+                                                </button>
                                             </div>
                                         </div>
 
                                         <!-- 密码 -->
                                         <div class="tab-pane fade" id="password" role="tabpanel"
-                                             aria-labelledby="password-tab" aria-selected="true">
+                                             aria-labelledby="password-tab" aria-selected="false">
+                                            <input type="hidden" name="userId" value="${user.userId}">
                                             <div class="form-group">
-                                                <label for="oldPassword">* 原密码：</label>
-                                                <input type="password" class="form-control" id="oldPassword">
+                                                <label for="oldPass">* 原密码：</label>
+                                                <input type="password" class="form-control" id="oldPass"
+                                                       name="oldPass">
                                             </div>
                                             <div class="form-group">
-                                                <label for="newPassword">* 新密码：</label>
-                                                <input type="password" class="form-control" id="newPassword">
+                                                <label for="newPass">* 新密码：</label>
+                                                <input type="password" class="form-control" id="newPass"
+                                                       name="newPass">
                                             </div>
                                             <div class="form-group">
                                                 <label for="confirmPassword">* 确认密码：</label>
-                                                <input type="password" class="form-control" id="confirmPassword">
+                                                <input type="password" class="form-control" id="confirmPassword"
+                                                       name="confirmPassword">
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">确认更改</button>
+                                                <button type="submit" class="btn btn-primary btn-sm"
+                                                        onclick="changePass();">确认更改
+                                                </button>
                                             </div>
                                         </div>
 
@@ -178,5 +194,84 @@
 
     </div>
     <@footer></@footer>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+    <script>
+        function saveUser(option) {
+            // const param = $('#' + option).serialize();
+            const param = $('#' + option).val();
+            $.ajax({
+                type: 'POST',
+                url: '/admin/profile/save',
+                data: param,
+                success: function (result) {
+                    if (result === true) {
+                        Swal.fire({
+                            toast: true,
+                            timer: 2000,
+                            text: "保存成功！",
+                            icon: 'success',
+                            position: 'top-end',
+                            showConfirmButton: false
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        showMsg("保存失败！", "error", 2000);
+                    }
+                }
+            });
+        }
+
+        function changePass() {
+            const oldPass = $('#oldPass').val();
+            const newPass = $('#newPass').val();
+            const confirmPass = $('#confirmPassword').val();
+            if (oldPass === "" || newPass === "" || confirmPass === "") {
+                showMsg("请输入完整信息！", "info", 2000);
+                return;
+            }
+            if (newPass != confirmPass) {
+                showMsg("两次密码不一样！", "error", 2000);
+                return;
+            }
+            const param = $('#password').serialize();
+            // const param = $('#' + option).serialize();
+            // const param = $('#passForm').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/admin/profile/changePass',
+                data: param,
+                success: function (result) {
+                    if (result === true) {
+                        Swal.fire({
+                            toast: true,
+                            timer: 2000,
+                            text: "修改密码成功！",
+                            icon: 'success',
+                            position: 'top-end',
+                            showConfirmButton: false
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        showMsg("原密码错误！", "error", 2000);
+                    }
+                }
+            });
+        }
+
+        function showMsg(text, icon, timer) {
+            Swal.fire({
+                toast: true,
+                timer: timer,
+                text: text,
+                icon: icon,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+        }
+    </script>
 
 </#compress>

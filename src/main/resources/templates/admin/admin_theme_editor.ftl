@@ -24,8 +24,8 @@
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">首页</a></li>
-                            <li class="breadcrumb-item active">外观</li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="#">外观</a></li>
                             <li class="breadcrumb-item active">主题编辑</li>
                         </ol>
                         <!-- /.col -->

@@ -31,4 +31,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return {@link List}<{@link User}>
      */
     List<User> findByUserEmailAndUserPass(String userEmail, String userPass);
+
+    /**
+     * 根据用户编号和密码查询
+     *
+     * @param userId   用户编号
+     * @param userPass 用户密码
+     * @return {@link User}
+     */
+    User findByUserIdAndUserPass(Long userId, String userPass);
 }

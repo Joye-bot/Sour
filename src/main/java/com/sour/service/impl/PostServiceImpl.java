@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 文章业务层实现类
  *
@@ -35,5 +37,28 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<Post> findPostByStatus(Integer status, String postType, Pageable pageable) {
         return postRepository.findPostsByPostStatusAndPostType(status, postType, pageable);
+    }
+
+    /**
+     * 获取文章列表 分页
+     *
+     * @param postType post or page
+     * @param pageable 分页信息
+     * @return {@link Page}<{@link Post}>
+     */
+    @Override
+    public Page<Post> findAllPosts(String postType, Pageable pageable) {
+        return postRepository.findPostsByPostType(postType, pageable);
+    }
+
+    /**
+     * 获取文章列表 不分页
+     *
+     * @param postType post or page
+     * @return {@link List}<{@link Post}>
+     */
+    @Override
+    public List<Post> findAllPosts(String postType) {
+        return postRepository.findPostsByPostType(postType);
     }
 }

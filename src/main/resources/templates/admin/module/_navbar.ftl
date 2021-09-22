@@ -50,7 +50,7 @@
                     <img class="user-image" src="/static/images/default.png" alt="User Image">
                 </a>
                 <div class="dropdown-menu" style="left: inherit; right: 0; width: 17px;">
-                    <a class="dropdown-item" tabindex="-1" href="#">个人资料</a>
+                    <a data-pjax="true" class="dropdown-item" tabindex="-1" href="#">个人资料</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" tabindex="-1" href="/admin/logOut">退出登录</a>
                 </div>

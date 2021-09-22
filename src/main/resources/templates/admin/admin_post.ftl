@@ -36,7 +36,7 @@
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">首页</a></li>
+                            <li class="breadcrumb-item"><a href="/admin">首页</a></li>
                             <li class="breadcrumb-item">文章</li>
                             <li class="breadcrumb-item active">所有文章</li>
                         </ol>

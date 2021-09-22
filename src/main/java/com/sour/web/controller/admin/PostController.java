@@ -1,8 +1,12 @@
 package com.sour.web.controller.admin;
 
+import com.sour.model.domain.Category;
 import com.sour.model.domain.Post;
+import com.sour.model.domain.Tag;
 import com.sour.model.dto.SourConst;
+import com.sour.service.CategoryService;
 import com.sour.service.PostService;
+import com.sour.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * 文章控制器
@@ -26,9 +32,15 @@ public class PostController {
 
     private final PostService postService;
 
+    private final CategoryService categoryService;
+
+    private final TagService tagService;
+
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CategoryService categoryService, TagService tagService) {
         this.postService = postService;
+        this.categoryService = categoryService;
+        this.tagService = tagService;
     }
 
     /**
@@ -61,13 +73,19 @@ public class PostController {
         return "admin/admin_post";
     }
 
+
     /**
      * 处理跳转到新建文章页面
      *
+     * @param model 模型
      * @return {@link String}
      */
     @GetMapping(value = "/new")
-    public String newPost() {
+    public String newPost(Model model) {
+        final List<Category> categories = categoryService.findAllCategories();
+        final List<Tag> tags = tagService.findAllTags();
+        model.addAttribute("categories", categories);
+        model.addAttribute("tags", tags);
         return "admin/admin_post_md_editor";
     }
 }

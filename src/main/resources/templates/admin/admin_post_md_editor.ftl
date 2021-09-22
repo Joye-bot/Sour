@@ -101,14 +101,12 @@
                 <!-- 分类目录 -->
                 <div class="form-group">
                     <label for="categoryList">分类目录</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="categoryList" name="categoryList">
-                        <label class="form-check-label">MySQL</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="categoryList" name="categoryList">
-                        <label class="form-check-label">Java</label>
-                    </div>
+                    <#list categories as cate>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="categoryList" name="categoryList">
+                            <label class="form-check-label">${cate.cateName}</label>
+                        </div>
+                    </#list>
                 </div>
                 <div class="dropdown-divider"></div>
 
@@ -116,13 +114,11 @@
                 <div class="form-group">
                     <label>标签</label>
                     <select class="select2" multiple="multiple" data-placeholder="选择或输入标签" style="width: 100%;">
-                        <option>Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <#if tags??>
+                            <#list tags as tag>
+                                <option>${tag.tagName}</option>
+                            </#list>
+                        </#if>
                     </select>
                 </div>
                 <div class="dropdown-divider"></div>

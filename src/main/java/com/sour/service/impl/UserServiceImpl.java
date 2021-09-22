@@ -116,4 +116,26 @@ public class UserServiceImpl implements UserService {
         user.setLoginEnable(enable);
         userRepository.save(user);
     }
+
+    /**
+     * 保存个人资料
+     *
+     * @param user 用户
+     */
+    @Override
+    public void saveByUser(User user) {
+        userRepository.save(user);
+    }
+
+    /**
+     * 根据用户编号和密码查询
+     *
+     * @param userId   用户编号
+     * @param userPass 用户密码
+     * @return {@link User}
+     */
+    @Override
+    public User findByUserIdAndUserPass(Long userId, String userPass) {
+        return userRepository.findByUserIdAndUserPass(userId, userPass);
+    }
 }

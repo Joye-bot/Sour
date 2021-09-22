@@ -4,6 +4,8 @@ import com.sour.model.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * 文章业务层
  *
@@ -21,4 +23,22 @@ public interface PostService {
      * @return {@link Page}<{@link Post}>
      */
     Page<Post> findPostByStatus(Integer status, String postType, Pageable pageable);
+
+
+    /**
+     * 获取文章列表 分页
+     *
+     * @param postType post or page
+     * @param pageable 分页信息
+     * @return {@link Page}<{@link Post}>
+     */
+    Page<Post> findAllPosts(String postType, Pageable pageable);
+
+    /**
+     * 获取文章列表 不分页
+     *
+     * @param postType post or page
+     * @return {@link List}<{@link Post}>
+     */
+    List<Post> findAllPosts(String postType);
 }

@@ -1,21 +1,8 @@
 <#compress >
     <#include "module/_macro.ftl">
     <@head title="Sour后台管理-标签"></@head>
-
-    <style>
-        .label {
-            display: inline;
-            padding: .2em .6em .3em;
-            font-size: 75%;
-            font-weight: bold;
-            line-height: 1;
-            color: #ffffff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: .2em;
-        }
-    </style>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
     <div class="wrapper">
 
@@ -37,8 +24,8 @@
                         <!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">首页</a></li>
-                                <li class="breadcrumb-item active">文章</li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                                <li class="breadcrumb-item"><a data-pjax="true" href="#">文章</a></li>
                                 <li class="breadcrumb-item active">标签</li>
                             </ol>
                             <!-- /.col -->
@@ -63,26 +50,64 @@
                                 </div>
                                 <!-- /.card-header -->
 
-                                <!-- form start-->
-                                <form>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="tagName">名称</label>
-                                            <input type="text" class="form-control" id="tagName">
-                                            <small>* 页面上所显示的名称</small>
+                                <#if updateTag??>
+                                    <!-- form start-->
+                                    <form action="/admin/tag/save" method="post" role="form">
+                                        <input type="hidden" name="tagId" value="${updateTag.tagId}">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="tagName">名称</label>
+                                                <input type="text" class="form-control" id="tagName" name="tagName"
+                                                       value="${updateTag.tagName}">
+                                                <small>* 页面上所显示的名称</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tagUrl">别名</label>
+                                                <input type="text" class="form-control" id="tagUrl" name="tagUrl"
+                                                       value="${updateTag.tagUrl}">
+                                                <small>* 一般为单个标签页面的标识，最好为英文</small>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="tagUrl">别名</label>
-                                            <input type="text" class="form-control" id="tagUrl">
-                                            <small>* 一般为单个标签页面的标识，最好为英文</small>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-body -->
+                                        <!-- /.card-body -->
 
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">保存</button>
-                                    </div>
-                                </form>
+                                        <div class="card-footer">
+                                            <!-- <button type="submit" class="btn btn-primary btn-sm">保存</button> -->
+                                            <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                            <a data-pjax="true" href="/admin/tag" class="btn btn-sm btn-default">返回添加</a>
+                                            <#if updateTag.posts?size = 0>
+                                                <!-- <a href="/admin/tag/remove?tagId=${updateTag.tagId}"
+                                                   class="btn btn-sm btn btn-danger float-right">删除</a> -->
+                                                <a data-pjax="true" class="btn btn-sm btn-danger float-right"
+                                                        onclick="modelShow('/admin/tag/remove?tagId=${updateTag.tagId}');">
+                                                    删除
+                                                </a>
+                                            </#if>
+                                        </div>
+                                    </form>
+                                <#else >
+                                    <!-- form start-->
+                                    <form action="/admin/tag/save" method="post" role="form"
+                                          onsubmit="return checkTag();">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="tagName">名称</label>
+                                                <input type="text" class="form-control" id="tagName" name="tagName">
+                                                <small>* 页面上所显示的名称</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tagUrl">别名</label>
+                                                <input type="text" class="form-control" id="tagUrl" name="tagUrl">
+                                                <small>* 一般为单个标签页面的标识，最好为英文</small>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+
+                                        <div class="card-footer">
+                                            <!-- <button type="submit" class="btn btn-primary btn-sm">保存</button> -->
+                                            <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                        </div>
+                                    </form>
+                                </#if>
                             </div>
                         </div>
 
@@ -101,37 +126,11 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <!--<table class="table table-head-fixed text-nowrap text-center">
-                                        <thead>
-                                        <tr>
-                                            <th>名称</th>
-                                            <th>路径</th>
-                                            <th>文章数</th>
-                                            <th>操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>Java</td>
-                                            <td>java</td>
-                                            <td>3</td>
-                                            <td>
-                                                &lt;!&ndash;<span class="label bg-yellow">待审核</span>&ndash;&gt;
-                                                &lt;!&ndash; <span class="label bg-info">修改</span>&ndash;&gt;
-                                                <a href="/admin/category" class="label bg-info">修改</a>
-                                                <a href="/admin/category" class="label bg-danger">删除</a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>-->
                                     <div class="container-fluid">
-                                        <span class="label" style="background-color: rgb(0,192,239)">Vue</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">Java</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">JavaScript</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">Spring Boot</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">Linux</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">Emacs</span>
-                                        <span class="label" style="background-color: rgb(0,192,239)">Neovim</span>
+                                        <#list tags as tag>
+                                            <a data-pjax="true" href="/admin/tag/edit?tagId=${tag.tagId}" class="badge badge-primary"
+                                               style="background-color: rgb(0,192,239);">${tag.tagName}</a>
+                                        </#list>
                                     </div>
                                 </div>
                             </div>
@@ -139,6 +138,32 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 删除确认弹出层 -->
+            <div class="modal fade" id="removeTagModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">提示信息</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>您确定要删除吗？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="url">
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+                            <a onclick="removeIt()" class="btn btn-sm btn-danger" data-dismiss="modal">确定</a>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+
         </div>
         <!-- /.content-wrapper -->
 
@@ -147,5 +172,54 @@
 
     </div>
     <@footer></@footer>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+    <script>
+        function checkTag() {
+            const name = $('#tagName').val();
+            const url = $('#tagUrl').val();
+            let result = true;
+            if (name === "" || url === "") {
+                showMsg("请输入完整信息！", "info", 2000);
+                result = false;
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/admin/tag/checkUrl',
+                async: false,
+                data: {
+                    'tagUrl': url
+                },
+                success: function (data) {
+                    if (data === true) {
+                        showMsg("该路径已存在！", "info", 2000);
+                        result = false;
+                    }
+                }
+            });
+            return result;
+        }
+
+        function showMsg(text, icon, timer) {
+            Swal.fire({
+                toast: true,
+                timer: timer,
+                text: text,
+                icon: icon,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+        }
+
+        function removeIt() {
+            window.location.href = $.trim($("#url").val());
+        }
+
+        function modelShow(url) {
+            $('#url').val(url);
+            $('#removeTagModal').modal();
+        }
+    </script>
 
 </#compress>

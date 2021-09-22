@@ -35,7 +35,7 @@
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">首页</a></li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
                             <li class="breadcrumb-item active">评论</li>
                         </ol>
                         <!-- /.col -->

@@ -21,8 +21,6 @@
 </#macro>
 
 <#macro footer>
-    <!--<script src="/static/plugins/pjax/jquery.pjax.js"></script>-->
-
     <!-- jQuery -->
     <script src="/static/plugins/jquery/jquery.min.js"></script>
     <!-- adminlte -->
@@ -31,12 +29,19 @@
     <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- pace -->
     <script src="/static/plugins/pace/pace.min.js"></script>
+
+<#if options.admin_pjax!"true" == "true">
+    <script src="/static/plugins/pjax/jquery.pjax.js"></script>
+</#if>
+
 <@compress single_line=true>
     <script>
         $(document).ajaxStart(function () {
             Pace.restart();
         });
+        <#if options.admin_pjax!"true" == "true">
         $(document).pjax('a[data-pjax=true]', '.content-wrapper', {fragment: '.content-wrapper', timeout: 8000});
+        </#if>
     </script>
 </@compress>
 

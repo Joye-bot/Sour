@@ -1,5 +1,7 @@
 <#include "module/_macro.ftl">
 <@head title="Sour后台管理-菜单"></@head>
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
 <style>
     .label {
@@ -36,8 +38,8 @@
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">首页</a></li>
-                            <li class="breadcrumb-item active">外观</li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="#">外观</a></li>
                             <li class="breadcrumb-item active">菜单</li>
                         </ol>
                         <!-- /.col -->
@@ -62,35 +64,75 @@
                             </div>
                             <!-- /.card-header -->
 
-                            <!-- form start-->
-                            <form>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="menuName">名称</label>
-                                        <input type="text" class="form-control" id="menuName">
-                                        <small>* 页面上所显示的名称</small>
+                            <#if updateMenu??>
+                                <!-- form start-->
+                                <form action="/admin/menus/save" method="post" role="form" id="menuAddForm">
+                                    <input type="hidden" name="menuId" value="${updateMenu.menuId}"></input>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="menuName">名称</label>
+                                            <input type="text" class="form-control" id="menuName" name="menuName"
+                                                   value="${updateMenu.menuName}">
+                                            <small>* 页面上所显示的名称</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuUrl">别名</label>
+                                            <input type="text" class="form-control" id="menuUrl" name="menuUrl"
+                                                   value="${updateMenu.menuUrl}">
+                                            <small>* 一般为单个分类页面的标识，最好为英文</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuSort">排序编号</label>
+                                            <input type="text" class="form-control" id="menuSort" name="menuSort"
+                                                   value="${updateMenu.menuSort}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuIcon">图标</label>
+                                            <input type="text" class="form-control" id="menuIcon" name="menuIcon"
+                                                   value="${updateMenu.menuIcon!}">
+                                            <small>* 可选项，支持部分字体图标</small>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="menuAlias">别名</label>
-                                        <input type="text" class="form-control" id="menuAlias">
-                                        <small>* 一般为单个分类页面的标识，最好为英文</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="menuSort">排序编号</label>
-                                        <input type="text" class="form-control" id="menuSort">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="menuIcon">图标</label>
-                                        <input type="text" class="form-control" id="menuIcon">
-                                        <small>* 可选项，支持部分字体图标</small>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
+                                    <!-- /.card-body -->
 
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary btn-sm">保存</button>
-                                </div>
-                            </form>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                        <a data-pjax="true" href="/admin/menus"
+                                           class="btn btn-sm btn-default">返回添加</a>
+                                    </div>
+                                </form>
+                            <#else >
+                                <!-- form start-->
+                                <form action="/admin/menus/save" method="post" role="form" id="menuAddForm"
+                                      onsubmit="return checkMenu();">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="menuName">名称</label>
+                                            <input type="text" class="form-control" id="menuName" name="menuName">
+                                            <small>* 页面上所显示的名称</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuUrl">别名</label>
+                                            <input type="text" class="form-control" id="menuUrl" name="menuUrl">
+                                            <small>* 一般为单个分类页面的标识，最好为英文</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuSort">排序编号</label>
+                                            <input type="text" class="form-control" id="menuSort" name="menuSort">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menuIcon">图标</label>
+                                            <input type="text" class="form-control" id="menuIcon" name="menuIcon">
+                                            <small>* 可选项，支持部分字体图标</small>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                    </div>
+                                </form>
+                            </#if>
                         </div>
                     </div>
 
@@ -120,18 +162,25 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Java</td>
-                                        <td>java</td>
-                                        <td>1</td>
-                                        <td></td>
-                                        <td>
-                                            <!--<span class="label bg-yellow">待审核</span>-->
-                                            <!-- <span class="label bg-info">修改</span>-->
-                                            <a href="#" class="label bg-info">修改</a>
-                                            <a href="#" class="label bg-danger">删除</a>
-                                        </td>
-                                    </tr>
+                                    <@commonTag method="menus">
+                                        <#list menus as menu>
+                                            <tr>
+                                                <td>${menu.menuName}</td>
+                                                <td>${menu.menuUrl}</td>
+                                                <td>${menu.menuSort}</td>
+                                                <td>${menu.menuIcon!}</td>
+                                                <td>
+                                                    <a data-pjax="true"
+                                                       href="/admin/menus/edit?menuId=${menu.menuId}"
+                                                       class="btn btn-xs bg-info">修改</a>
+                                                    <button class="btn btn-xs bg-danger"
+                                                            onclick="modelShow('/admin/menus/remove?menuId=${menu.menuId}');">
+                                                        删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </@commonTag>
                                     </tbody>
                                 </table>
                             </div>
@@ -157,6 +206,32 @@
                 </div>
             </div>
         </section>
+
+        <!-- 删除确认弹出层 -->
+        <div class="modal fade" id="removeMenuModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">提示信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>您确定要删除吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="url">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+                        <a onclick="removeIt()" class="btn btn-sm btn-danger" data-dismiss="modal">确定</a>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+
     </div>
     <!-- /.content-wrapper -->
 
@@ -165,3 +240,54 @@
 
 </div>
 <@footer></@footer>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+<script>
+    function checkMenu() {
+        const name = $('#menuName').val();
+        const url = $('#menuUrl').val();
+        const sort = $('#menuSort').val();
+        let result = true;
+        if (name === "" || url === "" || sort === "") {
+            showMsg("输入完整信息！", "info", 2000);
+            result = false;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/admin/menus/checkUrl',
+            async: false,
+            data: {
+                'menuUrl': url
+            },
+            success: function (data) {
+                if (data === true) {
+                    showMsg("该路径已经存在！", "info", 2000);
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+
+    function showMsg(text, icon, timer) {
+        Swal.fire({
+            toast: true,
+            timer: timer,
+            text: text,
+            icon: icon,
+            position: 'top-end',
+            showConfirmButton: false
+        });
+    }
+
+    function removeIt() {
+        window.location.href = $.trim($("#url").val());
+    }
+
+    function modelShow(url) {
+        $('#url').val(url);
+        $('#removeMenuModal').modal();
+    }
+
+</script>

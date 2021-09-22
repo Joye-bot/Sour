@@ -21,8 +21,8 @@
                     <!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">首页</a></li>
-                            <li class="breadcrumb-item active">系统</li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="/admin">首页</a></li>
+                            <li class="breadcrumb-item"><a data-pjax="true" href="#">系统</a></li>
                             <li class="breadcrumb-item active">备份恢复</li>
                         </ol>
                         <!-- /.col -->
