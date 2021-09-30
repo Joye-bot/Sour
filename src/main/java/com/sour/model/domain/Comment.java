@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 评论实体类
@@ -94,4 +95,37 @@ public class Comment implements Serializable {
     @ManyToOne(targetEntity = Post.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Comment comment = (Comment) o;
+        return Objects.equals(commentId, comment.commentId) &&
+                Objects.equals(commentAuthor, comment.commentAuthor) &&
+                Objects.equals(commentAuthorEmail, comment.commentAuthorEmail) &&
+                Objects.equals(commentAuthorUrl, comment.commentAuthorUrl) &&
+                Objects.equals(commentAuthorIp, comment.commentAuthorIp) &&
+                Objects.equals(commentAuthorAvatarMd5, comment.commentAuthorAvatarMd5) &&
+                Objects.equals(commentDate, comment.commentDate) &&
+                Objects.equals(commentContent, comment.commentContent) &&
+                Objects.equals(commentAgent, comment.commentAgent) &&
+                Objects.equals(commentParent, comment.commentParent) &&
+                Objects.equals(commentStatus, comment.commentStatus) &&
+                Objects.equals(isAdmin, comment.isAdmin) &&
+                Objects.equals(post, comment.post);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                commentId, commentAuthor, commentAuthorEmail, commentAuthorUrl,
+                commentAuthorIp, commentAuthorAvatarMd5, commentDate, commentContent,
+                commentAgent, commentParent, commentStatus, isAdmin, post
+        );
+    }
 }

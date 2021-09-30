@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文章实体类
@@ -85,11 +86,6 @@ public class Post implements Serializable {
     private Date postDate;
 
     /**
-     * 最后一次更新时间
-     */
-    private Date postUpdate;
-
-    /**
      * 0 已发布
      * 1 草稿
      * 2 回收站
@@ -122,4 +118,37 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Post post = (Post) o;
+        return Objects.equals(postId, post.postId) &&
+                Objects.equals(user, post.user) &&
+                Objects.equals(postTitle, post.postTitle) &&
+                Objects.equals(postType, post.postType) &&
+                Objects.equals(postContentMd, post.postContentMd) &&
+                Objects.equals(postContent, post.postContent) &&
+                Objects.equals(postUrl, post.postUrl) &&
+                Objects.equals(postSummary, post.postSummary) &&
+                Objects.equals(postThumbnail, post.postThumbnail) &&
+                Objects.equals(postDate, post.postDate) &&
+                Objects.equals(postStatus, post.postStatus) &&
+                Objects.equals(categories, post.categories) &&
+                Objects.equals(tags, post.tags) &&
+                Objects.equals(comments, post.comments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                postId, user, postTitle, postType, postContentMd, postContent,
+                postUrl, postSummary, postThumbnail, postDate, postStatus, categories, tags, comments
+        );
+    }
 }

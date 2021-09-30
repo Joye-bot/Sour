@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 菜单实体类
@@ -53,4 +54,25 @@ public class Menu implements Serializable {
      * 图标，可选，部分主题可显示
      */
     private String menuIcon;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Menu menu = (Menu) o;
+        return Objects.equals(menuId, menu.menuId) &&
+                Objects.equals(menuName, menu.menuName) &&
+                Objects.equals(menuUrl, menu.menuUrl) &&
+                Objects.equals(menuSort, menu.menuSort) &&
+                Objects.equals(menuIcon, menu.menuIcon);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(menuId, menuName, menuUrl, menuSort, menuIcon);
+    }
 }

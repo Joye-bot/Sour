@@ -1,13 +1,17 @@
 package com.sour.config;
 
 import com.sour.model.dto.SourConst;
+import com.sour.model.dto.Theme;
 import com.sour.service.OptionsService;
+import com.sour.util.SourUtil;
+import com.sour.web.controller.core.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +34,8 @@ public class StartupConfiguration implements ApplicationListener<ContextRefreshe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         this.loadOptions();
+        this.loadActiveTheme();
+        this.loadThemes();
     }
 
     /**
@@ -43,6 +49,35 @@ public class StartupConfiguration implements ApplicationListener<ContextRefreshe
             }
         } catch (Exception e) {
             log.error("加载主题设置失败：{}", e.getMessage());
+        }
+    }
+
+    /**
+     * 加载主题设置
+     */
+    private void loadActiveTheme() {
+        try {
+            final String themeValue = optionsService.findOneOption("theme");
+            if (SourUtil.isNotNull(themeValue)) {
+                BaseController.THEME = themeValue;
+            }
+        } catch (Exception e) {
+            log.error("加载主题设置失败：{}", e.getMessage());
+        }
+    }
+
+    /**
+     * 加载所有主题
+     */
+    private void loadThemes() {
+        try {
+            SourConst.THEMES.clear();
+            final List<Theme> themes = SourUtil.getThemes();
+            if (themes != null) {
+                SourConst.THEMES = themes;
+            }
+        } catch (Exception e) {
+            log.error("加载主题失败：{}", e.getMessage());
         }
     }
 }

@@ -13,28 +13,27 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 </head>
-<body>
+<body class="hold-transition sidebar-mini">
 
 <div class="container-fluid">
 
     <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12" style="top: 15px;">
-                    <div class="card">
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-head-fixed text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>日志编号</th>
-                                    <th>触发事件</th>
-                                    <th>产生结果</th>
-                                    <th>IP</th>
-                                    <th>产生时间</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <#list logs.content as log>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                            <tr>
+                                <th>日志编号</th>
+                                <th>触发事件</th>
+                                <th>产生结果</th>
+                                <th>IP</th>
+                                <th>产生时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#list logs.content as log>
                                 <tr>
                                     <td>${log.logId}</td>
                                     <td>${log.logTitle}</td>
@@ -42,27 +41,27 @@
                                     <td>${log.logIp}</td>
                                     <td>${log.logCreated}</td>
                                 </tr>
-                                </#list>
-                                </tbody>
-                            </table>
-                        </div>
+                            </#list>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="card-footer clearfix">
-                            <ul class="pagination pagination-sm m-0 float-right">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">«</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">»</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="card-footer clearfix">
+                        <h3 class="card-title">第${logs.number+1}/${logs.totalPages}页</h3>
+                        <ul class="pagination pagination-sm m-0 float-right">
+                            <li class="page-item">
+                                <a class="btn btn-sm btn-default <#if !logs.hasPrevious()>disabled</#if>" href="/admin/logs?page=${logs.number-1}">«</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="btn btn-sm btn-default" href="/admin/logs?page=${logs.number+1}">${logs.number+2}</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="btn btn-sm btn-default" href="/admin/logs?page=${logs.number+2}">${logs.number+3}</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="btn btn-sm btn-default <#if !logs.hasNext()>disabled</#if>" href="/admin/logs?page=${logs.number+1}">»</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

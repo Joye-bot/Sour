@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 图库实体类
@@ -63,4 +64,30 @@ public class Gallery implements Serializable {
      * 图片地址
      */
     private String galleryUrl;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Gallery gallery = (Gallery) o;
+        return Objects.equals(galleryId, gallery.galleryId) &&
+                Objects.equals(galleryName, gallery.galleryName) &&
+                Objects.equals(galleryDesc, gallery.galleryDesc) &&
+                Objects.equals(galleryDate, gallery.galleryDate) &&
+                Objects.equals(galleryLocation, gallery.galleryLocation) &&
+                Objects.equals(galleryThumbnailUrl, gallery.galleryThumbnailUrl) &&
+                Objects.equals(galleryUrl, gallery.galleryUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                galleryId, galleryName, galleryDesc, galleryDate,
+                galleryLocation, galleryThumbnailUrl, galleryUrl
+        );
+    }
 }

@@ -5,8 +5,10 @@ import com.sour.model.domain.User;
 import com.sour.model.dto.LogsRecord;
 import com.sour.model.dto.SourConst;
 import com.sour.service.LogsService;
+import com.sour.service.PostService;
 import com.sour.service.UserService;
 import com.sour.util.SourUtil;
+import com.sour.web.controller.core.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +36,22 @@ import java.util.regex.Pattern;
 @Slf4j
 @Controller
 @RequestMapping(value = "/admin")
-public class AdminController {
+public class AdminController extends BaseController {
 
     private final UserService userService;
 
     private final LogsService logsService;
 
+    private final PostService postService;
+
     private final HttpServletRequest request;
 
     @Autowired
-    public AdminController(UserService userService, LogsService logsService, HttpServletRequest request) {
+    public AdminController(UserService userService, LogsService logsService,
+                           PostService postService, HttpServletRequest request) {
         this.userService = userService;
         this.logsService = logsService;
+        this.postService = postService;
         this.request = request;
     }
 
@@ -61,6 +67,11 @@ public class AdminController {
         // 查询最新的日志
         final List<Logs> logsLatest = logsService.findLogsLatest();
         model.addAttribute("logs", logsLatest);
+
+        // 查询文章条数
+        final Integer postCount = postService.findAllPosts(SourConst.POST_TYPE_POST).size();
+        model.addAttribute("postCount", postCount);
+
         return "admin/admin_index";
     }
 
@@ -177,7 +188,11 @@ public class AdminController {
      */
     @GetMapping(value = "/logs/clear")
     public String logsClear() {
-        logsService.removeAllLogs();
+        try {
+            logsService.removeAllLogs();
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
         return "redirect:/admin";
     }
 }

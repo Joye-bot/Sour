@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 友情链接实体类
@@ -54,4 +55,24 @@ public class Link implements Serializable {
      */
     private String linkDesc;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Link link = (Link) o;
+        return Objects.equals(linkId, link.linkId) &&
+                Objects.equals(linkName, link.linkName) &&
+                Objects.equals(linkUrl, link.linkUrl) &&
+                Objects.equals(linkPic, link.linkPic) &&
+                Objects.equals(linkDesc, link.linkDesc);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(linkId, linkName, linkUrl, linkPic, linkDesc);
+    }
 }

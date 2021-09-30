@@ -1,6 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-个人资料"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-个人资料"></@head>
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
@@ -120,10 +120,12 @@
                                     <div class="tab-content">
 
                                         <!-- 基本资料 -->
-                                        <div class="tab-pane fade show active" id="basic-information" role="tabpanel"
-                                             aria-labelledby="basic-information-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade show active"
+                                              id="basic-information"
+                                              aria-labelledby="basic-information-tab" aria-selected="true">
                                             <input type="hidden" name="userId" value="${user.userId!}">
-                                            <input type="hidden" id="userPass" name="userPass" value="${user.userPass!}">
+                                            <input type="hidden" id="userPass" name="userPass"
+                                                   value="${user.userPass!}">
                                             <div class="form-group">
                                                 <label for="userName">* 用户名：</label>
                                                 <input type="text" class="form-control" id="userName"
@@ -142,19 +144,20 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="userDesc">个人说明：</label>
-                                                <textarea class="form-control" rows="5" id="userDesc"
+                                                <textarea class="form-control" rows="5" id="userDesc" name="userDesc"
                                                           style="resize: none;">${user.userDesc!}</textarea>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm"
+                                                <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="saveUser('basic-information');">保存
                                                 </button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- 密码 -->
-                                        <div class="tab-pane fade" id="password" role="tabpanel"
-                                             aria-labelledby="password-tab" aria-selected="false">
+                                        <form action="javascript://;" method="post" class="tab-pane fade" id="password"
+                                              aria-labelledby="password-tab"
+                                              aria-selected="true">
                                             <input type="hidden" name="userId" value="${user.userId}">
                                             <div class="form-group">
                                                 <label for="oldPass">* 原密码：</label>
@@ -172,11 +175,11 @@
                                                        name="confirmPassword">
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm"
+                                                <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="changePass();">确认更改
                                                 </button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                     </div>
                                 </div>
@@ -193,14 +196,12 @@
         <#include "module/_footer.ftl">
 
     </div>
-    <@footer></@footer>
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
     <script>
         function saveUser(option) {
-            // const param = $('#' + option).serialize();
-            const param = $('#' + option).val();
+            const param = $('#' + option).serialize();
             $.ajax({
                 type: 'POST',
                 url: '/admin/profile/save',
@@ -232,13 +233,11 @@
                 showMsg("请输入完整信息！", "info", 2000);
                 return;
             }
-            if (newPass != confirmPass) {
+            if (newPass !== confirmPass) {
                 showMsg("两次密码不一样！", "error", 2000);
                 return;
             }
             const param = $('#password').serialize();
-            // const param = $('#' + option).serialize();
-            // const param = $('#passForm').serialize();
             $.ajax({
                 type: 'POST',
                 url: '/admin/profile/changePass',
@@ -273,5 +272,7 @@
             });
         }
     </script>
+
+    <@footer></@footer>
 
 </#compress>

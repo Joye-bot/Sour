@@ -1,12 +1,15 @@
 package com.sour.model.domain;
 
-import jdk.jfr.Enabled;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 附件实体类
@@ -14,7 +17,11 @@ import java.util.Date;
  * @author dell
  * @date 2021/09/05
  */
-@Enabled
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Entity
 @Table(name = "sour_attachment")
 public class Attachment implements Serializable {
 
@@ -56,4 +63,30 @@ public class Attachment implements Serializable {
      * 上传时间
      */
     private Date attachCreated;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Attachment that = (Attachment) o;
+        return Objects.equals(attachId, that.attachId) &&
+                Objects.equals(attachName, that.attachName) &&
+                Objects.equals(attachPath, that.attachPath) &&
+                Objects.equals(attachSmallPath, that.attachSmallPath) &&
+                Objects.equals(attachType, that.attachType) &&
+                Objects.equals(attachSuffix, that.attachSuffix) &&
+                Objects.equals(attachCreated, that.attachCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                attachId, attachName, attachPath, attachSmallPath,
+                attachType, attachSuffix, attachCreated
+        );
+    }
 }

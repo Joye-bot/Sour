@@ -1,5 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-新建页面"></@head>
+<@head title="${options.blog_title} | Sour后台管理-新建页面"></@head>
 
 <!-- date range picker-->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
@@ -128,7 +128,6 @@
     <#include "module/_footer.ftl">
 
 </div>
-<@footer></@footer>
 
 <!-- date range picker -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -184,3 +183,5 @@
         });
     })
 </script>
+
+<@footer></@footer>

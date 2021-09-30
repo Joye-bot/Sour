@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 选项实体类
@@ -38,4 +39,21 @@ public class Options implements Serializable {
      */
     @Lob
     private String optionValue;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Options options = (Options) o;
+        return Objects.equals(optionName, options.optionName) && Objects.equals(optionValue, options.optionValue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(optionName, optionValue);
+    }
 }

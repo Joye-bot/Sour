@@ -1,6 +1,7 @@
 package com.sour.service.impl;
 
 import com.sour.model.domain.Post;
+import com.sour.model.domain.Tag;
 import com.sour.repository.PostRepository;
 import com.sour.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,28 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAllPosts(String postType) {
         return postRepository.findPostsByPostType(postType);
+    }
+
+    /**
+     * 新增/保存文章
+     *
+     * @param post 文章
+     * @return {@link Post}
+     */
+    @Override
+    public Post saveByPost(Post post) {
+        return postRepository.save(post);
+    }
+
+    /**
+     * 根据标签查询文章
+     *
+     * @param tag      标签
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    @Override
+    public Page<Post> findPostsByTags(Tag tag, Pageable pageable) {
+        return postRepository.findPostsByTags(tag, pageable);
     }
 }

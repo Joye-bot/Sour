@@ -1,6 +1,7 @@
 package com.sour.service;
 
 import com.sour.model.domain.Post;
+import com.sour.model.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -41,4 +42,21 @@ public interface PostService {
      * @return {@link List}<{@link Post}>
      */
     List<Post> findAllPosts(String postType);
+
+    /**
+     * 新增/保存文章
+     *
+     * @param post 文章
+     * @return {@link Post}
+     */
+    Post saveByPost(Post post);
+
+    /**
+     * 根据标签查询文章
+     *
+     * @param tag      标签
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    Page<Post> findPostsByTags(Tag tag, Pageable pageable);
 }

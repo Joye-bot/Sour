@@ -1,12 +1,15 @@
 package com.sour.web.controller.admin;
 
-import com.sour.model.domain.Category;
-import com.sour.model.domain.Post;
-import com.sour.model.domain.Tag;
+import com.sour.model.domain.*;
+import com.sour.model.dto.LogsRecord;
 import com.sour.model.dto.SourConst;
 import com.sour.service.CategoryService;
+import com.sour.service.LogsService;
 import com.sour.service.PostService;
 import com.sour.service.TagService;
+import com.sour.util.SourUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -28,6 +31,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/admin/posts")
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -36,11 +40,19 @@ public class PostController {
 
     private final TagService tagService;
 
+    private final LogsService logsService;
+
+    private final HttpServletRequest request;
+
     @Autowired
-    public PostController(PostService postService, CategoryService categoryService, TagService tagService) {
+    public PostController(PostService postService, CategoryService categoryService,
+                          TagService tagService, LogsService logsService,
+                          HttpServletRequest request) {
         this.postService = postService;
         this.categoryService = categoryService;
         this.tagService = tagService;
+        this.logsService = logsService;
+        this.request = request;
     }
 
     /**
@@ -87,5 +99,49 @@ public class PostController {
         model.addAttribute("categories", categories);
         model.addAttribute("tags", tags);
         return "admin/admin_post_md_editor";
+    }
+
+    /**
+     * 添加文章
+     *
+     * @param post     文章
+     * @param cateList 分类列表
+     * @param tagList  标签列表
+     * @param session  会话
+     */
+    @PostMapping(value = "/new/push")
+    @ResponseBody
+    public void pushPost(@ModelAttribute Post post,
+                         @RequestParam("cateList") List<String> cateList,
+                         @RequestParam("tagList") String tagList,
+                         HttpSession session) {
+        try {
+            // 提取摘要
+            int postSummary = 50;
+            if (SourUtil.isNotNull(SourConst.OPTIONS.get("post_summary"))) {
+                postSummary = Integer.parseInt(SourConst.OPTIONS.get("post_summary"));
+            }
+            if (SourUtil.htmlToText(post.getPostContent()).length() > postSummary) {
+                final String summary = SourUtil.getSummary(post.getPostContent(), postSummary);
+                post.setPostSummary(summary);
+            }
+            post.setPostDate(SourUtil.getDate());
+            // 发表用户
+            final User user = (User) session.getAttribute(SourConst.USER_SESSION_KEY);
+            post.setUser(user);
+            final List<Category> categories = categoryService.strListToCateList(cateList);
+            post.setCategories(categories);
+            if (StringUtils.isNoneEmpty(tagList)) {
+                final List<Tag> tags = tagService.strListToTagList(StringUtils.trim(tagList));
+                post.setTags(tags);
+            }
+            postService.saveByPost(post);
+            log.info("已发表新文章：{}", post.getPostTitle());
+            logsService.saveByLogs(
+                    new Logs(LogsRecord.PUSH_POST, post.getPostTitle(), SourUtil.getIpAddr(request), SourUtil.getDate())
+            );
+        } catch (NumberFormatException e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
     }
 }

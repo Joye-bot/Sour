@@ -16,4 +16,12 @@ public interface OptionsService {
      * @return {@link Map}<{@link String}, {@link String}>
      */
     Map<String, String> findAllOptions();
+
+    /**
+     * 根据key查询单个设置
+     *
+     * @param key 关键字
+     * @return {@link String}
+     */
+    String findOneOption(String key);
 }

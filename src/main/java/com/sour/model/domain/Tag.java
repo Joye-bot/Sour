@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 标签
@@ -51,4 +52,24 @@ public class Tag implements Serializable {
     @JsonIgnore
     @ToString.Exclude
     private List<Post> posts = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Tag tag = (Tag) o;
+        return Objects.equals(tagId, tag.tagId) &&
+                Objects.equals(tagName, tag.tagName) &&
+                Objects.equals(tagUrl, tag.tagUrl) &&
+                Objects.equals(posts, tag.posts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tagId, tagName, tagUrl, posts);
+    }
 }

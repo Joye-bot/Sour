@@ -1,5 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-备份恢复"></@head>
+<@head title="${options.blog_title} | Sour后台管理-备份恢复"></@head>
 
 <div class="wrapper">
 

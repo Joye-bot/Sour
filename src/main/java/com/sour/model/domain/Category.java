@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 分类实体类
@@ -56,4 +57,25 @@ public class Category implements Serializable {
     @JsonIgnore
     @ToString.Exclude
     private List<Post> posts = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Category category = (Category) o;
+        return Objects.equals(cateId, category.cateId) &&
+                Objects.equals(cateName, category.cateName) &&
+                Objects.equals(cateUrl, category.cateUrl) &&
+                Objects.equals(cateDesc, category.cateDesc) &&
+                Objects.equals(posts, category.posts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cateId, cateName, cateUrl, cateDesc, posts);
+    }
 }

@@ -15,4 +15,6 @@ public interface LogsRecord {
     String LOGIN_ERROR = "登录失败";
 
     String LOGOUT = "退出登录";
+
+    String PUSH_POST = "发表文章";
 }

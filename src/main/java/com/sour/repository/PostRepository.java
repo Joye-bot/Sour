@@ -1,6 +1,7 @@
 package com.sour.repository;
 
 import com.sour.model.domain.Post;
+import com.sour.model.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +43,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * @return {@link List}<{@link Post}>
      */
     List<Post> findPostsByPostType(String postType);
+
+    /**
+     * 根据标签查询文章
+     *
+     * @param tag      标签
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    Page<Post> findPostsByTags(Tag tag, Pageable pageable);
 }

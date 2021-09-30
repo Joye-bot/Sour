@@ -23,4 +23,14 @@ public class AttachmentController {
     public String attachments() {
         return "admin/admin_attachment";
     }
+
+    /**
+     * 跳转到附件页面
+     *
+     * @return {@link String}
+     */
+    @GetMapping(value = "/select")
+    public String selectAttachment() {
+        return "admin/widget/_attachment-select";
+    }
 }

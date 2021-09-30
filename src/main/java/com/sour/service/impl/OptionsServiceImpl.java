@@ -40,4 +40,19 @@ public class OptionsServiceImpl implements OptionsService {
         }
         return options;
     }
+
+    /**
+     * 根据key查询单个设置
+     *
+     * @param key 关键字
+     * @return {@link String}
+     */
+    @Override
+    public String findOneOption(String key) {
+        Options options = optionsRepository.findOptionsByOptionName(key);
+        if (options != null) {
+            return options.getOptionValue();
+        }
+        return null;
+    }
 }

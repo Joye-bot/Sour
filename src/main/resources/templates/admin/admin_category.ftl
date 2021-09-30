@@ -1,6 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-分类目录"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-分类目录"></@head>
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
@@ -151,7 +151,6 @@
                                                     <td>
                                                         <a data-pjax="true" href="/admin/category/edit?cateId=${cate.cateId}"
                                                            class="btn btn-xs bg-info">修改</a>
-                                                        <#--<a href="/admin/category" class="label bg-danger">删除</a>-->
                                                         <button class="btn btn-xs btn-danger"
                                                                 onclick="modelShow('/admin/category/remove?cateId=${cate.cateId}');">
                                                             删除
@@ -218,7 +217,6 @@
         <#include "module/_footer.ftl">
 
     </div>
-    <@footer></@footer>
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
@@ -270,4 +268,5 @@
         }
     </script>
 
+    <@footer></@footer>
 </#compress>

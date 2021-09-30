@@ -1,8 +1,10 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-主题编辑"></@head>
+<@head title="${options.blog_title} | Sour后台管理-主题编辑"></@head>
 
 <!-- editor.md -->
 <link rel="stylesheet" href="/static/plugins/editor.md/css/editormd.min.css">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
 <div class="wrapper">
 
@@ -46,13 +48,16 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">主题</h3>
+                                <h3 class="card-title">${options.theme!'default'}</h3>
                             </div>
                             <div class="card-body p-0">
                                 <ul class="nav nav-pills flex-column">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">index.flt</a>
-                                    </li>
+                                    <#list tpls as tpl>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link" onclick="loadContent('${tpl}')">${tpl}</a>
+                                        </li>
+                                    </#list>
+                                    <!--
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">theme.flt</a>
                                     </li>
@@ -62,6 +67,7 @@
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">tag.flt</a>
                                     </li>
+                                    -->
                                 </ul>
                             </div>
                         </div>
@@ -83,6 +89,9 @@
                                 <a class="btn btn-primary btn-sm">发布</a>&ndash;&gt;
 
                             </div>-->
+                            <div class="card-header">
+                                <h3 class="card-title" id="tplNameTitle"></h3>
+                            </div>
                             <div class="card-body">
                                 <!--<div class="form-group">
                                     <input type="text" class="form-control" placeholder="请输入文章标题">
@@ -96,7 +105,7 @@
                             </div>
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">保存</button>
+                                <button type="submit" class="btn btn-primary" onclick="saveTpl();">保存</button>
                             </div>
                         </div>
                     </div>
@@ -111,12 +120,13 @@
     <#include "module/_footer.ftl">
 
 </div>
-<@footer></@footer>
 
 <!-- layer -->
 <script src="/static/plugins/layer/layer.js"></script>
 <!-- editor.md -->
 <script src="/static/plugins/editor.md/editormd.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
 
 <script type="text/javascript">
     let editor;
@@ -124,15 +134,72 @@
         editor = editormd("markdown-editor", {
             width: "100%",
             height: 640,
-            watch: false,
-            toolbar: false,
             syncScrolling: "single",
             path: "/static/plugins/editor.md/lib/",
-            saveHTMLToTextarea: true,
-            // 上传图片配置
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "pang", "bmp", "webp"],
-            imageUploadURL: "/admin/attachments/upload/editor"
+            watch: false,
+            toolbar: false,
+            codeFold: true,
+            searchReplace: true,
+            placeholder: "Enjoy coding!",
+            value: (localStorage.mode) ? $("#" + localStorage.mode.replace("text/", "") + "-code").val() : $("#html-code").val(),
+            theme: (localStorage.theme) ? localStorage.theme : "default",
+            mode: (localStorage.mode) ? localStorage.mode : "text/html"
         });
-    })
+    });
+
+    function loadContent(tplName) {
+        if (tplName && tplName != '') {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/themes/getTpl',
+                async: false,
+                data: {
+                    tplName: tplName
+                },
+                success: function (data) {
+                    editor.setValue(data);
+                    $('#tplNameTitle').html(tplName);
+                }
+            });
+        } else {
+            editor.setValue('');
+            $('#tplNameTitle').html('');
+        }
+    }
+
+    function saveTpl() {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/themes/editor/save',
+            async: false,
+            data: {
+                'tplName': $('#tplNameTitle').html(),
+                'tplContent': editor.getValue()
+            },
+            success: function (data) {
+                if (data === true) {
+                    Swal.fire({
+                        toast: true,
+                        timer: 2000,
+                        text: "保存成功！",
+                        icon: 'success',
+                        position: 'top-end',
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({
+                        toast: true,
+                        timer: 2000,
+                        text: "保存失败！",
+                        icon: 'error',
+                        position: 'top-end',
+                        showConfirmButton: false
+                    });
+                }
+            }
+        });
+    }
 </script>
+
+<@footer></@footer>
+

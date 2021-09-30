@@ -1,5 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-仪表盘"></@head>
+<@head title="${options.blog_title} | Sour后台管理-仪表盘"></@head>
 
 <div class="wrapper">
 
@@ -43,7 +43,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">文章</span>
-                                <span class="info-box-more">1,410</span>
+                                <span class="info-box-more">${postCount!0}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -146,10 +146,12 @@
                                                 <div class="media-body">
                                                     <h3 class="dropdown-item-title">
                                                         Brad Diesel
-                                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                                        <span class="float-right text-sm text-danger"><i
+                                                                    class="fas fa-star"></i></span>
                                                     </h3>
                                                     <p class="text-sm">Call me whenever you can...</p>
-                                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4
+                                                        Hours Ago</p>
                                                 </div>
                                             </div>
                                             <!-- Message End -->
@@ -198,8 +200,8 @@
                                             <i class="fas fa-bars"></i>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="/admin/logs" class="dropdown-item"
-                                                   onclick="openAllLogs()">查看所有</a></li>
+                                            <li><a href="#" class="dropdown-item"
+                                                   onclick="openAllLogs();">查看所有</a></li>
                                             <li><a href="/admin/logs/clear" class="dropdown-item">清空日志</a></li>
                                         </ul>
                                     </div>
@@ -233,21 +235,22 @@
     <#include "module/_footer.ftl">
 </div>
 
+<script src="/static/plugins/layer/layer.js"></script>
+<@compress single_line=true>
+    <script>
+        function openAllLogs() {
+            layer.open({
+                type: 2,
+                title: '所有日志',
+                maximum: true,
+                shadeClose: true,
+                shade: 0.5,
+                area: ['90%', '90%'],
+                content: '/admin/logs',
+                scrollbar: false
+            });
+        }
+    </script>
+</@compress>
 
 <@footer></@footer>
-
-<script src="/static/plugins/layer/layer.js"></script>
-<script>
-    function openAllLogs() {
-        layer.open({
-            type: 2,
-            title: '所有日志',
-            maximum: true,
-            shadeClose: true,
-            shade: 0.5,
-            area: ['90%', '90%'],
-            content: '/admin/logs',
-            scrollbar: false
-        });
-    }
-</script>

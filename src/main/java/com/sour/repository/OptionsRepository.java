@@ -10,4 +10,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2021/09/19
  */
 public interface OptionsRepository extends JpaRepository<Options, Long> {
+
+    /**
+     * 根据key查询单个设置
+     *
+     * @param key 关键字
+     * @return {@link Options}
+     */
+    Options findOptionsByOptionName(String key);
 }

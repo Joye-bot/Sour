@@ -18,4 +18,12 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
      * @return {@link Tag}
      */
     Tag findTagByTagUrl(String tagUrl);
+
+    /**
+     * 根据标签名称查询
+     *
+     * @param tagName 标签名
+     * @return {@link Tag}
+     */
+    Tag findTagByTagName(String tagName);
 }

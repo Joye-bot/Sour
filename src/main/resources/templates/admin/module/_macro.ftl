@@ -16,13 +16,13 @@
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- jQuery -->
+        <script src="/static/plugins/jquery/jquery.min.js"></script>
     </head>
     <body class="hold-transition sidebar-mini">
 </#macro>
 
 <#macro footer>
-    <!-- jQuery -->
-    <script src="/static/plugins/jquery/jquery.min.js"></script>
     <!-- adminlte -->
     <script src="/static/js/adminlte.min.js"></script>
     <!-- Bootstrap 4 -->

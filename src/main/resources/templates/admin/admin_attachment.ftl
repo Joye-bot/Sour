@@ -1,6 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-附件"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-附件"></@head>
 
     <!-- Ekko Lightbox -->
     <link rel="stylesheet" href="/static/plugins/ekko-lightbox/ekko-lightbox.css">

@@ -1,6 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-网站设置"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-网站设置"></@head>
     <!-- bootstrap-switch -->
     <link rel="stylesheet" href="/static/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
 
@@ -458,8 +458,6 @@
         <#include "module/_footer.ftl">
 
     </div>
-    <@footer></@footer>
-
 
     <script src="/static/plugins/toast/js/jquery.toast.min.js"></script>
     <!-- bootstrap-switch -->
@@ -510,4 +508,6 @@
         });
 
     </script>
+
+    <@footer></@footer>
 </#compress>

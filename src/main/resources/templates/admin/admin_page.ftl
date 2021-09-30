@@ -1,20 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-所有页面"></@head>
-    <style>
-        .label {
-            display: inline;
-            padding: .2em .6em .3em;
-            font-size: 75%;
-            font-weight: bold;
-            line-height: 1;
-            color: #ffffff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: .2em;
-        }
-    </style>
+    <@head title="${options.blog_title} | Sour后台管理-所有页面"></@head>
 
     <body class="hold-transition sidebar-mini">
 

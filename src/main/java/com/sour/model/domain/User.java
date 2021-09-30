@@ -1,7 +1,9 @@
 package com.sour.model.domain;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -79,7 +81,7 @@ public class User implements Serializable {
      */
     private Integer loginError;
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -94,5 +96,34 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return 0;
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) &&
+                Objects.equals(userName, user.userName) &&
+                Objects.equals(userDisplayName, user.userDisplayName) &&
+                Objects.equals(userPass, user.userPass) &&
+                Objects.equals(userEmail, user.userEmail) &&
+                Objects.equals(userAvatar, user.userAvatar) &&
+                Objects.equals(userDesc, user.userDesc) &&
+                Objects.equals(loginEnable, user.loginEnable) &&
+                Objects.equals(loginLast, user.loginLast) &&
+                Objects.equals(loginError, user.loginError);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                userId, userName, userDisplayName, userPass, userEmail,
+                userAvatar, userDesc, loginEnable, loginLast, loginError
+        );
     }
 }

@@ -1,6 +1,8 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-友情链接"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-友情链接"></@head>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
     <div class="wrapper">
 
@@ -48,34 +50,72 @@
                                 </div>
                                 <!-- /.card-header -->
 
-                                <!-- form start-->
-                                <form>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="linkName">* 网站名称</label>
-                                            <input type="text" class="form-control" id="linkName" name="linkName">
+                                <#if updateLink??>
+                                    <!-- form start-->
+                                    <form action="/admin/page/links/save" method="post" role="form"
+                                          onsubmit="return isNull();">
+                                        <input type="hidden" name="linkId" value="${updateLink.linkId}">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="linkName">* 网站名称</label>
+                                                <input type="text" class="form-control" id="linkName" name="linkName"
+                                                       value="${updateLink.linkName}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkUrl">* 网站地址</label>
+                                                <input type="text" class="form-control" id="linkUrl" name="linkUrl"
+                                                       value="${updateLink.linkUrl}">
+                                                <small>* 需要加上 https://</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkPic">Logo</label>
+                                                <input type="text" class="form-control" id="linkPic" name="linkPic"
+                                                       value="${updateLink.linkPic}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkDesc">描述</label>
+                                                <textarea class="form-control" rows="3" id="linkDesc" name="linkDesc"
+                                                          style="resize: none;">${updateLink.linkDesc}</textarea>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="linkUrl">* 网站地址</label>
-                                            <input type="text" class="form-control" id="linkUrl" name="linkUrl">
-                                            <small>* 需要加上 https://</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="linkPic">Logo</label>
-                                            <input type="text" class="form-control" id="linkPic" name="linkPic">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="linkDesc">描述</label>
-                                            <textarea class="form-control" rows="3" id="linkDesc" name="linkDesc"
-                                                      style="resize: none;"></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-body -->
+                                        <!-- /.card-body -->
 
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">保存</button>
-                                    </div>
-                                </form>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                            <a data-pjax="true" href="/admin/page/links" class="btn btn-sm btn-default">返回添加</a>
+                                        </div>
+                                    </form>
+                                <#else >
+                                    <!-- form start-->
+                                    <form action="/admin/page/links/save" method="post" role="form"
+                                          onsubmit="return isNull();">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="linkName">* 网站名称</label>
+                                                <input type="text" class="form-control" id="linkName" name="linkName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkUrl">* 网站地址</label>
+                                                <input type="text" class="form-control" id="linkUrl" name="linkUrl">
+                                                <small>* 需要加上 https://</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkPic">Logo</label>
+                                                <input type="text" class="form-control" id="linkPic" name="linkPic">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="linkDesc">描述</label>
+                                                <textarea class="form-control" rows="3" id="linkDesc" name="linkDesc"
+                                                          style="resize: none;"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary btn-sm">${statusName}</button>
+                                        </div>
+                                    </form>
+                                </#if>
                             </div>
                         </div>
 
@@ -104,15 +144,22 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Java</td>
-                                            <td><a href="https://www.github.com">https://www.github.com</a></td>
-                                            <td>你好啊！</td>
-                                            <td>
-                                                <a href="#" class="btn btn-xs bg-info">编辑</a>
-                                                <a href="#" class="btn btn-xs bg-danger">删除</a>
-                                            </td>
-                                        </tr>
+                                        <#list links as link>
+                                            <tr>
+                                                <td>${link.linkName}</td>
+                                                <td><a href="${link.linkUrl}">${link.linkUrl}</a></td>
+                                                <td>${link.linkDesc}</td>
+                                                <td>
+                                                    <a data-pjax="true"
+                                                       href="/admin/page/links/edit?linkId=${link.linkId}"
+                                                       class="btn btn-xs bg-info">编辑</a>
+                                                    <button class="btn btn-xs bg-danger"
+                                                            onclick="modelShow('/admin/page/links/remove?linkId=${link.linkId}');">
+                                                        删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </#list>
                                         </tbody>
                                     </table>
                                 </div>
@@ -140,7 +187,7 @@
             </section>
 
             <!-- 删除确认弹出层 -->
-            <div class="modal fade" id="removeCateModal">
+            <div class="modal fade" id="removeLinkModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -171,9 +218,38 @@
     </div>
     <@footer></@footer>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
     <script>
+        function isNull() {
+            const name = $('#linkName').val();
+            const url = $('#linkUrl').val();
+            // const pic = $('#linkPic').val();
+            // const desc = $('#linkDesc').val();
+            if (name === "" || url === "") {
+                showMsg("请输入完整信息！", "info", 2000);
+                return false;
+            }
+        }
+
+        function showMsg(text, icon, timer) {
+            Swal.fire({
+                toast: true,
+                timer: timer,
+                text: text,
+                icon: icon,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+        }
+
         function removeIt() {
             window.location.href = $.trim($("#url").val());
+        }
+
+        function modelShow(url) {
+            $('#url').val(url);
+            $('#removeLinkModal').modal();
         }
     </script>
 

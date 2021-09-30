@@ -1,20 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-所有文章"></@head>
-
-<style>
-    .label {
-        display: inline;
-        padding: .2em .6em .3em;
-        font-size: 75%;
-        font-weight: bold;
-        line-height: 1;
-        color: #ffffff;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: .2em;
-    }
-</style>
+<@head title="${options.blog_title} | Sour后台管理-所有文章"></@head>
 
 <div class="wrapper">
 
@@ -59,25 +44,25 @@
                         <div class="card">
 
                             <div class="card-header p-0 border-bottom-0">
-                               <ul class="nav nav-tabs">
-                                   <!-- 已发布 -->
-                                   <li class="nav-item">
-                                       <a class="nav-link active" id="published-tab" data-toggle="pill"
-                                          href="#published" role="tab" aria-controls="published" aria-selected="true">已发布</a>
-                                   </li>
+                                <ul class="nav nav-tabs">
+                                    <!-- 已发布 -->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="published-tab" data-toggle="pill"
+                                           href="#published" role="tab" aria-controls="published" aria-selected="true">已发布</a>
+                                    </li>
 
-                                   <!-- 草稿 -->
-                                   <li class="nav-item">
-                                       <a class="nav-link" id="draft-tab" data-toggle="pill" href="#draft" role="tab"
-                                          aria-controls="draft" aria-selected="false">草稿</a>
-                                   </li>
+                                    <!-- 草稿 -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="draft-tab" data-toggle="pill" href="#draft" role="tab"
+                                           aria-controls="draft" aria-selected="false">草稿</a>
+                                    </li>
 
-                                   <!-- 回收站 -->
-                                   <li class="nav-item">
-                                       <a class="nav-link" id="recycle-bin-tab" data-toggle="pill" href="#recycle-bin"
-                                          role="tab" aria-controls="recycle-bin" aria-selected="false">回收站</a>
-                                   </li>
-                               </ul>
+                                    <!-- 回收站 -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="recycle-bin-tab" data-toggle="pill" href="#recycle-bin"
+                                           role="tab" aria-controls="recycle-bin" aria-selected="false">回收站</a>
+                                    </li>
+                                </ul>
                             </div>
                             <!-- /.card-header -->
 
@@ -99,25 +84,47 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" target="_blank">Vue基础教程</a>
-                                                    </td>
+                                                <#if posts.content?size gt 0>
+                                                    <#list posts.content as post>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="#" target="_blank">${post.postTitle}</a>
+                                                            </td>
 
-                                                    <td>JavaScript</td>
-                                                    <td>vue</td>
-                                                    <td>23</td>
-                                                    <td>2021-07-22</td>
-                                                    <td>
-                                                        <!--<span class="label bg-primary">预览</span>
-                                                        <span class="label bg-info">修改</span>
-                                                        <span class="label bg-danger">丢弃</span>-->
+                                                            <td>
+                                                                <#if post.categories?size gt 0>
+                                                                    <#list post.categories as cate>
+                                                                        <label style="font-weight: normal;">${cate.cateName}</label>
+                                                                        <#--<span class="badge badge-success">${cate.cateName}</span>-->
+                                                                    </#list>
+                                                                </#if>
+                                                            </td>
 
-                                                        <a class="label bg-primary" href="/admin/post">预览</a>
-                                                        <a class="label bg-info" href="/admin/post">修改</a>
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
-                                                    </td>
-                                                </tr>
+                                                            <td>
+                                                                <#if post.tags?size gt 0>
+                                                                    <#list post.tags as tag>
+                                                                    <#--<label style="font-weight: normal;">${tag.tagName}</label>-->
+                                                                        <span class="badge badge-primary"
+                                                                           style="background-color: rgb(0,192,239);">${tag.tagName}</span>
+                                                                    </#list>
+                                                                </#if>
+                                                            </td>
+
+                                                            <td>
+                                                                <span class="badge badge-danger">23</span>
+                                                            </td>
+
+                                                            <td>${post.postDate!?string("yyyy-MM-dd HH:mm")}</td>
+                                                            <td>
+                                                                <a class="btn btn-xs btn-primary"
+                                                                   href="/admin/post">预览</a>
+                                                                <a class="btn btn-xs btn-info" href="/admin/post">修改</a>
+                                                                <a class="btn btn-xs btn-danger"
+                                                                   href="/admin/post">丢弃</a>
+                                                            </td>
+                                                        </tr>
+                                                    </#list>
+                                                </#if>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -127,16 +134,16 @@
                                             <div class="card-tools">
                                                 <ul class="pagination pagination-sm m-0 float-right">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="#">首页</a>
+                                                        <a class="btn btn-sm btn-default" href="#">«</a>
                                                     </li>
                                                     <li class="page-item">
-                                                        <a class="page-link" href="#">上一页</a>
+                                                        <a class="btn btn-sm btn-default" href="#">2</a>
                                                     </li>
                                                     <li class="page-item">
-                                                        <a class="page-link" href="#">下一页</a>
+                                                        <a class="btn btn-sm btn-default" href="#">3</a>
                                                     </li>
                                                     <li class="page-item">
-                                                        <a class="page-link" href="#">尾页</a>
+                                                        <a class="btn btn-sm btn-default" href="#">»</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -169,13 +176,9 @@
                                                     <td>23</td>
                                                     <td>2021-07-22</td>
                                                     <td>
-                                                        <!--<span class="label bg-primary">预览</span>
-                                                        <span class="label bg-info">修改</span>
-                                                        <span class="label bg-danger">丢弃</span>-->
-
-                                                        <a class="label bg-primary" href="/admin/post">预览</a>
-                                                        <a class="label bg-info" href="/admin/post">修改</a>
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                        <a class="btn btn-xs btn-primary" href="/admin/post">预览</a>
+                                                        <a class="btn btn-xs btn-info" href="/admin/post">修改</a>
+                                                        <a class="btn btn-xs btn-danger" href="/admin/post">丢弃</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -209,13 +212,9 @@
                                                     <td>23</td>
                                                     <td>2021-07-22</td>
                                                     <td>
-                                                        <!--<span class="label bg-primary">预览</span>
-                                                        <span class="label bg-info">修改</span>
-                                                        <span class="label bg-danger">丢弃</span>-->
-
-                                                        <a class="label bg-primary" href="/admin/post">预览</a>
-                                                        <a class="label bg-info" href="/admin/post">修改</a>
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                        <a class="btn btn-xs btn-primary" href="/admin/post">预览</a>
+                                                        <a class="btn btn-xs btn-info" href="/admin/post">修改</a>
+                                                        <a class="btn btn-xs btn-danger" href="/admin/post">丢弃</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

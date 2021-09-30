@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 日志实体类
@@ -56,4 +57,25 @@ public class Logs implements Serializable {
      */
     @NonNull
     private Date logCreated;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Logs logs = (Logs) o;
+        return Objects.equals(logId, logs.logId) &&
+                logTitle.equals(logs.logTitle) &&
+                logContent.equals(logs.logContent) &&
+                logIp.equals(logs.logIp) &&
+                logCreated.equals(logs.logCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logId, logTitle, logContent, logIp, logCreated);
+    }
 }

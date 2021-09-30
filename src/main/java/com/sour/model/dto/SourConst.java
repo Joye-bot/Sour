@@ -1,6 +1,8 @@
 package com.sour.model.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,4 +22,9 @@ public class SourConst {
      * 所有设置选项(key, value)
      */
     public static Map<String, String> OPTIONS = new HashMap<>();
+
+    /**
+     * 所有主题
+     */
+    public static List<Theme> THEMES = new ArrayList<>();
 }

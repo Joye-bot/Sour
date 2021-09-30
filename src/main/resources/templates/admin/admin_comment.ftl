@@ -1,19 +1,5 @@
 <#include "module/_macro.ftl">
-<@head title="Sour后台管理-评论"></@head>
-<style>
-    .label {
-        display: inline;
-        padding: .2em .6em .3em;
-        font-size: 75%;
-        font-weight: bold;
-        line-height: 1;
-        color: #ffffff;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: .2em;
-    }
-</style>
+<@head title="${options.blog_title} | Sour后台管理-评论"></@head>
 
 <div class="wrapper">
 
@@ -107,9 +93,9 @@
                                                     </td>
                                                     <td>2021-09-15</td>
                                                     <td>
-                                                        <a class="label bg-info" href="/admin/post">回复</a>
+                                                        <a class="btn btn-xs bg-info" href="/admin/post">回复</a>
                                                         <!--<a class="label bg-primary" href="/admin/post">丢弃</a>-->
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                        <a class="btn btn-xs bg-danger" href="/admin/post">丢弃</a>
                                                     </td>
                                                 </tr>
 
@@ -121,9 +107,9 @@
                                                     </td>
                                                     <td>2021-09-15</td>
                                                     <td>
-                                                        <a class="label bg-info" href="/admin/post">回复</a>
+                                                        <a class="btn btn-xs bg-info" href="/admin/post">回复</a>
                                                         <!--<a class="label bg-primary" href="/admin/post">丢弃</a>-->
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                        <a class="btn btn-xs bg-danger" href="/admin/post">丢弃</a>
                                                     </td>
                                                 </tr>
 
@@ -135,9 +121,9 @@
                                                     </td>
                                                     <td>2021-09-15</td>
                                                     <td>
-                                                        <a class="label bg-info" href="/admin/post">回复</a>
+                                                        <a class="btn btn-xs bg-info" href="/admin/post">回复</a>
                                                         <!--<a class="label bg-primary" href="/admin/post">丢弃</a>-->
-                                                        <a class="label bg-danger" href="/admin/post">丢弃</a>
+                                                        <a class="btn btn-xs bg-danger" href="/admin/post">丢弃</a>
                                                     </td>
                                                 </tr>
 
@@ -168,8 +154,8 @@
                                                     <td>2021-09-14</td>
                                                     <td>
                                                         <!--<a class="label bg-info" href="#">回复</a>-->
-                                                        <a class="label bg-primary" href="#">通过</a>
-                                                        <a class="label bg-danger" href="#">丢弃</a>
+                                                        <a class="btn btn-xs bg-primary" href="#">通过</a>
+                                                        <a class="btn btn-xs bg-danger" href="#">丢弃</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -198,8 +184,8 @@
                                                     <td>JavaScript教程</td>
                                                     <td>2021-09-14</td>
                                                     <td>
-                                                        <a class="label bg-success" href="#">恢复</a>
-                                                        <a class="label bg-danger" href="#">删除</a>
+                                                        <a class="btn btn-xs bg-success" href="#">恢复</a>
+                                                        <a class="btn btn-xs bg-danger" href="#">删除</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

@@ -1,6 +1,6 @@
 <#compress >
     <#include "module/_macro.ftl">
-    <@head title="Sour后台管理-标签"></@head>
+    <@head title="${options.blog_title} | Sour后台管理-标签"></@head>
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
@@ -171,7 +171,6 @@
         <#include "module/_footer.ftl">
 
     </div>
-    <@footer></@footer>
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
@@ -222,4 +221,5 @@
         }
     </script>
 
+    <@footer></@footer>
 </#compress>
