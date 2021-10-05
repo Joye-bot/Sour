@@ -4,6 +4,7 @@ import com.sour.model.domain.Post;
 import com.sour.model.dto.SourConst;
 import com.sour.service.PostService;
 import com.sour.web.controller.core.BaseController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * 归档控制器
  *
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping(value = "/archives")
+@Slf4j
 public class ArchivesController extends BaseController {
 
     private final PostService postService;
@@ -58,5 +63,36 @@ public class ArchivesController extends BaseController {
         final Page<Post> posts = postService.findPostByStatus(0, SourConst.POST_TYPE_POST, pageable);
         model.addAttribute("posts", posts);
         return this.render("archives");
+    }
+
+    /**
+     * 渲染文章详情
+     *
+     * @param postUrl 文章路径
+     * @param model   模型
+     * @return {@link String}
+     */
+    @GetMapping(value = "/{postUrl}")
+    public String getPost(@PathVariable String postUrl, Model model) {
+        final Post post = postService.findByPostUrl(postUrl, SourConst.POST_TYPE_POST);
+        // 获取当前文章的发布日期
+        final Date postDate = post.getPostDate();
+        try {
+            // 查询当前文章日期之前的所有文章
+            final List<Post> beforePosts = postService.findByPostDateBefore(postDate);
+            // 查询当前文章日期之后的所有文章
+            final List<Post> afterPosts = postService.findByPostDateAfter(postDate);
+
+            if (beforePosts != null && !beforePosts.isEmpty()) {
+                model.addAttribute("beforePost", beforePosts.get(beforePosts.size() - 1));
+            }
+            if (afterPosts != null && !afterPosts.isEmpty()) {
+                model.addAttribute("afterPost", afterPosts.get(afterPosts.size() - 1));
+            }
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
+        model.addAttribute("post", post);
+        return this.render("post");
     }
 }

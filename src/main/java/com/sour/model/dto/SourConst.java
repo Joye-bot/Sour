@@ -1,5 +1,7 @@
 package com.sour.model.dto;
 
+import com.sour.model.domain.Attachment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,4 +29,9 @@ public class SourConst {
      * 所有主题
      */
     public static List<Theme> THEMES = new ArrayList<>();
+
+    /**
+     * 所有文件
+     */
+    public static List<Attachment> ATTACHMENTS = new ArrayList<>();
 }

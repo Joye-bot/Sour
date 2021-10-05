@@ -21,12 +21,12 @@
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="#" class="position-relative">
+                                    <a href="/archives/${post.postUrl}" class="position-relative">
                                         <img src="/static/images/next.jpg" alt="Photo 1" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="#" style="color: black;">${post.postTitle}</a>
+                                    <a href="/archives/${post.postUrl}" style="color: black;">${post.postTitle}</a>
                                 </div>
                             </div>
                         </div>

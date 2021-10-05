@@ -195,4 +195,14 @@ public class AdminController extends BaseController {
         }
         return "redirect:/admin";
     }
+
+    /**
+     * 关于Sour页面
+     *
+     * @return {@link String}
+     */
+    @GetMapping(value = "/sour")
+    public String sour() {
+        return "admin/admin_sour";
+    }
 }

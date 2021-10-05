@@ -3,6 +3,7 @@ package com.sour.service.impl;
 import com.sour.model.domain.Options;
 import com.sour.repository.OptionsRepository;
 import com.sour.service.OptionsService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +55,56 @@ public class OptionsServiceImpl implements OptionsService {
             return options.getOptionValue();
         }
         return null;
+    }
+
+    /**
+     * 保存单个设置选项
+     *
+     * @param key   key
+     * @param value value
+     */
+    @Override
+    public void saveOption(String key, String value) {
+        Options options;
+        if (StringUtils.equals(value, "")) {
+            options = new Options();
+            options.setOptionName(key);
+            this.removeOption(options);
+        } else {
+            if (StringUtils.isNoneEmpty(key)) {
+                if (optionsRepository.findOptionsByOptionName(key) == null) {
+                    options = new Options();
+                    options.setOptionName(key);
+                    options.setOptionValue(value);
+                    optionsRepository.save(options);
+                } else {
+                    options = optionsRepository.findOptionsByOptionName(key);
+                    options.setOptionValue(value);
+                    optionsRepository.save(options);
+                }
+            }
+        }
+    }
+
+    /**
+     * 保存多个设置选项
+     *
+     * @param options 选项
+     */
+    @Override
+    public void saveOptions(Map<String, String> options) {
+        if (options != null && !options.isEmpty()) {
+            options.forEach(this::saveOption);
+        }
+    }
+
+    /**
+     * 移除设置项
+     *
+     * @param options 选项
+     */
+    @Override
+    public void removeOption(Options options) {
+        optionsRepository.delete(options);
     }
 }

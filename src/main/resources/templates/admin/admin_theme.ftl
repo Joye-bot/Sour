@@ -48,32 +48,24 @@
 
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="position-relative">
-                                            <img src="/static/images/next.jpg" alt="Photo 1" class="img-fluid">
-                                        </div>
-                                        <div class="card-footer">
-                                            <span class="card-title">Anatole</span>
-                                            <div class="float-right">
-                                                <button type="submit" class="btn btn-sm btn-info">启动</button>
-                                                <button type="submit" class="btn btn-sm btn-default">已启动</button>
-                                                <button type="submit" class="btn btn-sm btn-primary">设置</button>
+                                    <#if themes?? &&(themes?size>0)>
+                                        <#list themes as theme>
+                                            <div class="col-sm-4">
+                                                <div class="position-relative">
+                                                    <img src="/static/images/next.jpg" alt="Photo 1" class="img-fluid">
+                                                </div>
+                                                <div class="card-footer">
+                                                    <span class="card-title">${theme.themeName}</span>
+                                                    <div class="float-right">
+                                                        <button type="submit" class="btn btn-sm btn-info">启动</button>
+                                                        <button type="submit" class="btn btn-sm btn-default">已启动
+                                                        </button>
+                                                        <button type="submit" class="btn btn-sm btn-primary">设置</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="position-relative">
-                                            <img src="/static/images/next.jpg" alt="Photo 1" class="img-fluid">
-                                        </div>
-                                        <div class="card-footer">
-                                            <span class="card-title">Anatole</span>
-                                            <div class="float-right">
-                                                <button type="submit" class="btn btn-sm btn-info">启动</button>
-                                                <button type="submit" class="btn btn-sm btn-default">已启动</button>
-                                                <button type="submit" class="btn btn-sm btn-primary">设置</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </#list>
+                                    </#if>
                                 </div>
                             </div>
 

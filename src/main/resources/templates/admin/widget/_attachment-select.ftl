@@ -16,7 +16,11 @@
     <link rel="stylesheet" href="/static/plugins/ekko-lightbox/ekko-lightbox.css">
 
     <!-- bootstrap file input -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/css/fileinput.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -58,22 +62,16 @@
                                 <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1"
-                                                   data-toggle="lightbox" data-titl="sample 1 - white"
-                                                   data-gallery="gallery">
-                                                    <img src="https://via.placeholder.com/300/FFFFFF?text=1"
-                                                         class="img-fluid mb-2" alt="white sample">
-                                                </a>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/000000.png?text=2"
-                                                   data-toggle="lightbox" data-titl="sample 2 - black"
-                                                   data-gallery="gallery">
-                                                    <img src="https://via.placeholder.com/300/000000?text=2"
-                                                         class="img-fluid mb-2" alt="black sample">
-                                                </a>
-                                            </div>
+                                            <#list attachments.content as attachment>
+                                                <div class="col-sm-2">
+                                                    <a href="${attachment.attachSmallPath}"
+                                                       data-toggle="lightbox" data-titl="sample 1 - white"
+                                                       data-gallery="gallery">
+                                                        <img src="${attachment.attachSmallPath!}"
+                                                             class="img-fluid mb-2" alt="white sample">
+                                                    </a>
+                                                </div>
+                                            </#list>
                                         </div>
                                     </div>
                                 </div>
@@ -94,8 +92,9 @@
                             <div class="tab-pane fade" id="password" role="tabpanel"
                                  aria-labelledby="password-tab" aria-selected="true">
 
-                                <input id="input-b3" name="input-b3[]" type="file" class="file" multiple
-                                       data-show-upload="false" data-show-caption="true" data-msg-placeholder="Select {files} for upload...">
+                                <div class="file-loading">
+                                    <input id="uploadImg" class="file-loading" type="file" multiple name="file">
+                                </div>
 
                             </div>
 
@@ -115,8 +114,10 @@
 <!-- Ekko Lightbox -->
 <script src="/static/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- bootstrap file input -->
-<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-fileinput/5.2.3/js/locales/zh.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-fileinput/5.2.3/js/fileinput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/js/locales/zh.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
 
 <script>
     $(function () {
@@ -126,7 +127,32 @@
                 alwaysShowClose: true
             });
         });
-    })
+    });
+
+    $('#uploadImg').fileinput({
+        language: 'zh',
+        uploadUrl: '/admin/attachments/upload',
+        uploadAsync: true,
+        allowedFileExtensions: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'psd'],
+        maxFileCount: 100,
+        enctype: 'multipart/form-data',
+        showClose: false
+    }).on("fileuploaded", function (event, data, previewId, index) {
+        const dataJson = data.jqXHR.responseJSON;
+        if (dataJson.success === "1") {
+            $("#uploadForm").hide(400);
+            Swal.fire({
+                toast: true,
+                timer: 2000,
+                text: "上传成功！",
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false
+            }).then(function () {
+                window.location.reload();
+            });
+        }
+    });
 </script>
 
 </body>

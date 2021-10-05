@@ -22,41 +22,22 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="#" class="position-relative">Java基础教程</a>
-                                <div class="small">2021-09-25</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="#" class="position-relative">Java基础教程</a>
-                                <div class="small">2021-09-25</div>
-                            </div>
-                        </div>
-                    </div>
+                    <@articleTag method="archivesLess">
+                        <#list archivesLess as archive>
+                            <#list archive.posts?sort_by("postDate")?reverse as post>
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a href="#" class="position-relative">${post.postTitle}</a>
+                                            <div class="small">2021-09-25</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </#list>
+                        </#list>
+                    </@articleTag>
 
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="#" class="position-relative">Java基础教程</a>
-                                <div class="small">2021-09-25</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="#" class="position-relative">Java基础教程</a>
-                                <div class="small">2021-09-25</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

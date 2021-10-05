@@ -17,4 +17,10 @@ public interface LogsRecord {
     String LOGOUT = "退出登录";
 
     String PUSH_POST = "发表文章";
+
+    String REMOVE_POST = "删除文章";
+
+    String CHANGE_THEME = "更换主题";
+
+    String UPLOAD_FILE = "上传附件";
 }

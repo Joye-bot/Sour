@@ -1,14 +1,21 @@
 package com.sour.web.controller.admin;
 
+import com.sour.model.domain.Logs;
+import com.sour.model.dto.LogsRecord;
+import com.sour.service.LogsService;
+import com.sour.service.OptionsService;
 import com.sour.util.SourUtil;
 import com.sour.web.controller.core.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,6 +34,16 @@ import java.util.List;
 @RequestMapping(value = "/admin/themes")
 @Slf4j
 public class ThemeController {
+
+    private final OptionsService optionsService;
+
+    private final LogsService logsService;
+
+    @Autowired
+    public ThemeController(OptionsService optionsService, LogsService logsService) {
+        this.optionsService = optionsService;
+        this.logsService = logsService;
+    }
 
     /**
      * 渲染主题设置页面
@@ -99,5 +116,31 @@ public class ThemeController {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 激活主题
+     *
+     * @param siteTheme 主题名称
+     * @param request   请求
+     * @return boolean true：激活成功，false：激活失败
+     */
+    @GetMapping(value = "/set")
+    @ResponseBody
+    public boolean activeTheme(@PathParam("siteTheme") String siteTheme, HttpServletRequest request) {
+        try {
+            // 保存主题设置项
+            optionsService.saveOption("theme", siteTheme);
+            // 设置主题
+            BaseController.THEME = siteTheme;
+            log.info("已将主题改变为：" + siteTheme);
+            logsService.saveByLogs(
+                    new Logs(LogsRecord.CHANGE_THEME, "更换为" + siteTheme, SourUtil.getIpAddr(request), SourUtil.getDate())
+            );
+            return true;
+        } catch (Exception e) {
+            log.error("主题设置失败，当前主题为：" + siteTheme);
+            return false;
+        }
     }
 }

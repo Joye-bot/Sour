@@ -1,5 +1,7 @@
 package com.sour.service;
 
+import com.sour.model.domain.Options;
+
 import java.util.Map;
 
 /**
@@ -24,4 +26,26 @@ public interface OptionsService {
      * @return {@link String}
      */
     String findOneOption(String key);
+
+    /**
+     * 保存单个设置选项
+     *
+     * @param key   key
+     * @param value value
+     */
+    void saveOption(String key, String value);
+
+    /**
+     * 保存多个设置选项
+     *
+     * @param options 选项
+     */
+    void saveOptions(Map<String, String> options);
+
+    /**
+     * 移除设置选项
+     *
+     * @param options 选项
+     */
+    void removeOption(Options options);
 }

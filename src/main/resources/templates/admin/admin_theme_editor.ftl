@@ -57,17 +57,6 @@
                                             <a href="#" class="nav-link" onclick="loadContent('${tpl}')">${tpl}</a>
                                         </li>
                                     </#list>
-                                    <!--
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">theme.flt</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">category.flt</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">tag.flt</a>
-                                    </li>
-                                    -->
                                 </ul>
                             </div>
                         </div>

@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 文章控制器
@@ -143,5 +145,66 @@ public class PostController {
         } catch (NumberFormatException e) {
             log.error("未知错误：{}", e.getMessage());
         }
+    }
+
+    /**
+     * 处理移至回收站的请求
+     *
+     * @param postId 文章编号
+     * @return {@link String} 重定向到/admin/posts
+     */
+    @GetMapping(value = "/throw")
+    public String moveToTrash(@RequestParam("postId") Long postId) {
+        try {
+            postService.updatePostStatus(postId, 2);
+            log.info("编号为{}的文章已被移到回收站", postId);
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
+        return "redirect:/admin/posts";
+    }
+
+    /**
+     * 处理文章为发布的状态
+     *
+     * @param postId 文章编号
+     * @param status 状态
+     * @return {@link String}
+     */
+    @GetMapping(value = "/revert")
+    public String moveToPublish(@RequestParam("postId") Long postId, @RequestParam("status") Integer status) {
+        try {
+            postService.updatePostStatus(postId, 0);
+            log.info("编号为{}的文章已改变为发布状态", postId);
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
+        return "redirect:/admin/post?status=" + status;
+    }
+
+    /**
+     * 处理删除文章的请求
+     *
+     * @param postId   文章编号
+     * @param postType 文章类型
+     * @return {@link String}
+     */
+    @GetMapping(value = "/remove")
+    public String removePost(@PathParam("postId") Long postId, @PathParam("postType") String postType) {
+        try {
+            final Optional<Post> post = postService.findByPostId(postId);
+            postService.removeByPostId(postId);
+            post.ifPresent(value -> logsService.saveByLogs(
+                    new Logs(LogsRecord.REMOVE_POST, value.getPostTitle(), SourUtil.getIpAddr(request), SourUtil.getDate())
+            ));
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+        }
+
+        if (StringUtils.equals(SourConst.POST_TYPE_POST, postType)) {
+            return "redirect:/admin/posts?status=2";
+        }
+
+        return "redirect:/admin/page";
     }
 }

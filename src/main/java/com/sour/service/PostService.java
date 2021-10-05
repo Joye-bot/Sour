@@ -2,10 +2,13 @@ package com.sour.service;
 
 import com.sour.model.domain.Post;
 import com.sour.model.domain.Tag;
+import com.sour.model.dto.Archive;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 文章业务层
@@ -59,4 +62,69 @@ public interface PostService {
      * @return {@link Page}<{@link Post}>
      */
     Page<Post> findPostsByTags(Tag tag, Pageable pageable);
+
+    /**
+     * 根据文章编号查询文章
+     *
+     * @param postId 文章编号
+     * @return {@link Optional}<{@link Post}>
+     */
+    Optional<Post> findByPostId(Long postId);
+
+    /**
+     * 修改文章状态
+     *
+     * @param postId 文章编号
+     * @param status 状态
+     * @return {@link Post}
+     */
+    Post updatePostStatus(Long postId, Integer status);
+
+    /**
+     * 根据编号删除文章
+     *
+     * @param postId 文章编号
+     * @return {@link Post}
+     */
+    Post removeByPostId(Long postId);
+
+    /**
+     * 根据文章路径查询
+     *
+     * @param postUrl  文章路径
+     * @param postType 文章类型 post or page
+     * @return {@link Post}
+     */
+    Post findByPostUrl(String postUrl, String postType);
+
+    /**
+     * 查询当前文章日期之前的所有文章
+     *
+     * @param postDate 发布日期
+     * @return {@link List}<{@link Post}>
+     */
+    List<Post> findByPostDateBefore(Date postDate);
+
+    /**
+     * 查询当前文章日期之后的所有文章
+     *
+     * @param postDate 发布日期
+     * @return {@link List}<{@link Post}>
+     */
+    List<Post> findByPostDateAfter(Date postDate);
+
+    /**
+     * 根据年份查询文章
+     *
+     * @param year 年份
+     * @return {@link List}<{@link Post}>
+     */
+    List<Post> findPostByYear(String year);
+
+    /**
+     * 查询归档信息 根据年份
+     *
+     * @return {@link List}<{@link Archive}>
+     */
+    List<Archive> findPostGroupByYear();
 }

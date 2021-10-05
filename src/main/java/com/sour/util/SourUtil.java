@@ -4,16 +4,18 @@ import com.sour.model.dto.Theme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -24,6 +26,12 @@ import java.util.List;
  */
 @Slf4j
 public class SourUtil {
+
+    private final static Calendar NOW = Calendar.getInstance();
+
+    public final static String YEAR = NOW.get(Calendar.YEAR) + "";
+
+    public final static String MONTH = (NOW.get(Calendar.MONTH) + 1) + "";
 
     /**
      * md5加密字符串
@@ -229,5 +237,32 @@ public class SourUtil {
             log.error("读取模板文件错误：{}", e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * 截取图片
+     *
+     * @param src    输入路径
+     * @param dest   输出路径
+     * @param w      宽度
+     * @param h      高度
+     * @param suffix 后缀
+     */
+    public static void cutCenterImage(String src, String dest, int w, int h, String suffix) {
+        try {
+            final Iterator iterator = ImageIO.getImageReadersByFormatName(suffix);
+            final ImageReader reader = (ImageReader) iterator.next();
+            final InputStream in = new FileInputStream(src);
+            final ImageInputStream iis = ImageIO.createImageInputStream(in);
+            reader.setInput(iis, true);
+            ImageReadParam param = reader.getDefaultReadParam();
+            final int imageIndex = 0;
+            final Rectangle rect = new Rectangle((reader.getWidth(imageIndex) - w) / 2, (reader.getHeight(imageIndex) - h) / 2, w, h);
+            param.setSourceRegion(rect);
+            final BufferedImage bi = reader.read(0, param);
+            ImageIO.write(bi, suffix, new File(dest));
+        } catch (IOException e) {
+            log.error("剪裁失败，图片本身尺寸小于需要修剪的尺寸：{}", e.getMessage());
+        }
     }
 }

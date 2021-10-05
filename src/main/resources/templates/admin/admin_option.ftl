@@ -3,6 +3,8 @@
     <@head title="${options.blog_title} | Sour后台管理-网站设置"></@head>
     <!-- bootstrap-switch -->
     <link rel="stylesheet" href="/static/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
 
     <!-- Content Wrapper. Contains page content -->
     <div class="wrapper">
@@ -96,25 +98,26 @@
                                     <div class="tab-content">
 
                                         <!-- 常规设置-->
-                                        <div class="tab-pane fade show active" id="common-settings" role="tabpanel"
-                                             aria-labelledby="common-settings-tab" aria-selected="false">
+                                        <form action="javascript://;" method="post" class="tab-pane fade show active"
+                                              id="common-settings" aria-labelledby="common-settings-tab"
+                                              aria-selected="true">
                                             <div class="form-group col-sm-6">
                                                 <label for="blogTitle">* 博客标题：</label>
-                                                <input type="text" class="form-control" id="blogTitle"
-                                                       placeholder="">
+                                                <input type="text" class="form-control" id="blogTitle" name="blog_title"
+                                                       value="${options.blog_title!}">
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="blogUrl">* 博客地址：</label>
-                                                <input type="text" class="form-control" id="blogUrl"
-                                                       placeholder="">
+                                                <input type="text" class="form-control" id="blogUrl" name="blog_url"
+                                                       value="${options.blog_url!'http://localhost:8080'}">
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="blogLogo">Logo：</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="blogLogo"
-                                                           data-bs-target="#logo">
+                                                    <input type="text" class="form-control" id="blogLogo" name="blog_logo"
+                                                           data-bs-target="#logo" value="${options.blog_logo!}">
                                                     <div class="input-group-append" data-bs-target="#logo"
-                                                         data-toggle="datetimepicker" onclick="openAttach()">
+                                                         data-toggle="datetimepicker" onclick="openAttach('blogLogo')">
                                                         <button class="btn btn-default" type="button">
                                                             选择
                                                         </button>
@@ -123,17 +126,20 @@
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="footerInfo">页脚信息：</label>
-                                                <textarea class="form-control" rows="5" id="footerInfo"
-                                                          style="resize: none;"></textarea>
+                                                <textarea class="form-control" rows="5" id="blogFooterInfo" name="blog_footer_info"
+                                                          style="resize: none;">${options.blog_footer_info!}</textarea>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                        onclick="saveOptions('common-settings')">保存
+                                                </button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- SEO设置 -->
-                                        <div class="tab-pane fade" id="seo-settings" role="tabpanel"
-                                             aria-labelledby="seo-settings-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade"
+                                              id="seo-settings" role="tabpanel"
+                                              aria-labelledby="seo-settings-tab" aria-selected="true">
                                             <div class="form-group col-sm-6">
                                                 <label for="keywords">关键词：</label>
                                                 <input type="text" class="form-control" id="keywords"
@@ -160,11 +166,12 @@
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- 文章设置 -->
-                                        <div class="tab-pane fade" id="post-settings" role="tabpanel"
-                                             aria-labelledby="post-settings-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade"
+                                              id="post-settings" role="tabpanel"
+                                              aria-labelledby="post-settings-tab" aria-selected="true">
                                             <div class="form-group col-sm-6">
                                                 <label for="indexPosts">首页显示条数：</label>
                                                 <input type="text" class="form-control" id="indexPosts"
@@ -206,11 +213,12 @@
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- 评论设置 -->
-                                        <div class="tab-pane fade" id="comment-settings" role="tabpanel"
-                                             aria-labelledby="comment-settings-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade"
+                                              id="comment-settings" role="tabpanel"
+                                              aria-labelledby="comment-settings-tab" aria-selected="true">
                                             <div class="form-group row">
                                                 <label for="commentSystem" class="col-sm-2">评论系统：</label>
                                                 <div class="col-sm-4">
@@ -344,11 +352,12 @@
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- 后台设置 -->
-                                        <div class="tab-pane fade" id="backstage-settings" role="tabpanel"
-                                             aria-labelledby="backstage-settings-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade"
+                                              id="backstage-settings" role="tabpanel"
+                                              aria-labelledby="backstage-settings-tab" aria-selected="true">
                                             <div class="form-group row">
                                                 <label for="adminPjax" class="col-sm-2">启动pjax：</label>
                                                 <div class="col-sm-4">
@@ -429,11 +438,12 @@
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                         <!-- 其他设置 -->
-                                        <div class="tab-pane fade" id="other-settings" role="tabpanel"
-                                             aria-labelledby="other-settings-tab" aria-selected="true">
+                                        <form action="javascript://;" method="post" class="tab-pane fade"
+                                              id="other-settings" role="tabpanel"
+                                              aria-labelledby="other-settings-tab" aria-selected="true">
                                             <div class="form-group col-sm-6">
                                                 <label for="statisticsCode">代码统计：</label>
                                                 <textarea class="form-control" rows="5" id="statisticsCode"
@@ -442,7 +452,7 @@
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">保存</button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -459,9 +469,12 @@
 
     </div>
 
-    <script src="/static/plugins/toast/js/jquery.toast.min.js"></script>
     <!-- bootstrap-switch -->
     <script src="/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- layer -->
+    <script src="/static/plugins/layer/layer.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
     <script>
         $(function () {
             $("input[data-bostrap-switch]").each(function () {
@@ -506,6 +519,42 @@
         $('input[name=comment_system]').click(function () {
             checkCommentOption();
         });
+
+        function openAttach(id) {
+            layer.open({
+                type: 2,
+                title: '所有附件',
+                maximum: true,
+                shadeClose: true,
+                shade: 0.5,
+                area: ['90%', '90%'],
+                content: '/admin/attachments/select?id=' + id,
+                scrollbar: false
+            });
+        }
+
+        function saveOptions(option) {
+            const param = $('#' + option).serialize();
+            $.ajax({
+                type: 'post',
+                url: '/admin/option/save',
+                data: param,
+                success: function (result) {
+                    showMsg("保存成功！", "success", 2000);
+                }
+            });
+        }
+
+        function showMsg(text, icon, timer) {
+            Swal.fire({
+                toast: true,
+                timer: timer,
+                text: text,
+                icon: icon,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+        }
 
     </script>
 

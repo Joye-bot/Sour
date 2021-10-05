@@ -1,5 +1,6 @@
 package com.sour.config;
 
+import com.sour.model.tag.ArticleTagDirective;
 import com.sour.model.tag.CommonTagDirective;
 import com.sour.service.OptionsService;
 import com.sour.service.UserService;
@@ -20,6 +21,8 @@ public class FreeMarkerConfig {
 
     private final freemarker.template.Configuration configuration;
 
+    private final ArticleTagDirective articleTagDirective;
+
     private final CommonTagDirective commonTagDirective;
 
     private final UserService userService;
@@ -28,10 +31,12 @@ public class FreeMarkerConfig {
 
     @Autowired
     public FreeMarkerConfig(freemarker.template.Configuration configuration,
+                            ArticleTagDirective articleTagDirective,
                             CommonTagDirective commonTagDirective,
                             OptionsService optionsService,
                             UserService userService) {
         this.configuration = configuration;
+        this.articleTagDirective = articleTagDirective;
         this.commonTagDirective = commonTagDirective;
         this.optionsService = optionsService;
         this.userService = userService;
@@ -39,6 +44,7 @@ public class FreeMarkerConfig {
 
     @PostConstruct
     public void setShareVariable() {
+        configuration.setSharedVariable("articleTag", articleTagDirective);
         configuration.setSharedVariable("commonTag", commonTagDirective);
         try {
             configuration.setSharedVariable("options", optionsService.findAllOptions());

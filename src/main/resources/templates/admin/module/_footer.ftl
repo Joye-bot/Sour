@@ -1,7 +1,8 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a data-pjax="true" href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>Thanks for using <a data-pjax="true" href="/admin/sour">Sour</a>.</strong>
     <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.1.0
+        <b>
+            <a href="https://github.com/nndmw/Sour">1.0 Beta</a>
+        </b>
     </div>
 </footer>
