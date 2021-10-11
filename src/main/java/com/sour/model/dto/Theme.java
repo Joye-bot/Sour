@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class Theme implements Serializable {
 
-    private static final long serialVersionUID = -861816756004912525L;
+//    private static final long serialVersionUID = -861816756004912525L;
 
     /**
      * 主题名称

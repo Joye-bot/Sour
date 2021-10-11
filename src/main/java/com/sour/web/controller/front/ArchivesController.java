@@ -1,8 +1,11 @@
 package com.sour.web.controller.front;
 
 import com.sour.model.domain.Post;
+import com.sour.model.domain.Tag;
 import com.sour.model.dto.SourConst;
+import com.sour.service.CategoryService;
 import com.sour.service.PostService;
+import com.sour.service.TagService;
 import com.sour.web.controller.core.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +35,17 @@ public class ArchivesController extends BaseController {
 
     private final PostService postService;
 
+    private final CategoryService categoryService;
+
+    private final TagService tagService;
+
     @Autowired
-    public ArchivesController(PostService postService) {
+    public ArchivesController(PostService postService,
+                              CategoryService categoryService,
+                              TagService tagService) {
         this.postService = postService;
+        this.categoryService = categoryService;
+        this.tagService = tagService;
     }
 
     /**
@@ -93,6 +104,22 @@ public class ArchivesController extends BaseController {
             log.error("未知错误：{}", e.getMessage());
         }
         model.addAttribute("post", post);
+
+        // 查询文章条数
+        final Integer postCount = postService.findAllPosts(SourConst.POST_TYPE_POST).size();
+        model.addAttribute("postCount", postCount);
+
+        // 查询分类条数
+        final Integer categoryCount = categoryService.findAllCategories().size();
+        model.addAttribute("categoryCount", categoryCount);
+
+        // 查询标签条数
+        final Integer tagCount = tagService.findAllTags().size();
+        model.addAttribute("tagCount", tagCount);
+
+        final List<Tag> tags = tagService.findAllTags();
+        model.addAttribute("tags", tags);
+
         return this.render("post");
     }
 }

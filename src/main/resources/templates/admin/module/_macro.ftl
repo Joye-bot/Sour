@@ -19,7 +19,7 @@
         <!-- jQuery -->
         <script src="/static/plugins/jquery/jquery.min.js"></script>
     </head>
-    <body class="hold-transition sidebar-mini">
+    <body class="hold-transition sidebar-mini ${options.admin_layout!''} ${options.sidebar_style!''}">
 </#macro>
 
 <#macro footer>
@@ -42,6 +42,16 @@
         <#if options.admin_pjax!"true" == "true">
         $(document).pjax('a[data-pjax=true]', '.content-wrapper', {fragment: '.content-wrapper', timeout: 8000});
         </#if>
+        $(function () {
+            if ($(window).width() < 1024) {
+                if ($('body').hasClass('layout-boxed')) {
+                    $('body').removeClass('layout-boxed');
+                }
+                if ($('body').hasClass('sidebar-collapse')) {
+                    $('body').removeClass('sidebar-collapse');
+                }
+            }
+        })
     </script>
 </@compress>
 

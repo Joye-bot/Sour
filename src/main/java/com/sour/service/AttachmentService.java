@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 附件业务逻辑层
@@ -36,4 +37,20 @@ public interface AttachmentService {
      * @return {@link Attachment}
      */
     Attachment saveByAttachment(Attachment attachment);
+
+    /**
+     * 根据附件编号查询附件
+     *
+     * @param attachId 附件编号
+     * @return {@link Optional}<{@link Attachment}>
+     */
+    Optional<Attachment> findByAttachId(Long attachId);
+
+    /**
+     * 根据编号移除附件
+     *
+     * @param attachId 附件编号
+     * @return {@link Attachment}
+     */
+    Attachment removeByAttachId(Long attachId);
 }

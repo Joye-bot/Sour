@@ -3,6 +3,7 @@ package com.sour.web.controller.front;
 import com.sour.model.domain.Post;
 import com.sour.model.domain.Tag;
 import com.sour.model.dto.SourConst;
+import com.sour.service.CategoryService;
 import com.sour.service.PostService;
 import com.sour.service.TagService;
 import com.sour.web.controller.core.BaseController;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * 标签控制器
  *
- * @author dell
+ * @author nndmw
  * @date 2021/09/29
  */
 @Controller
@@ -34,10 +35,15 @@ public class TagsController extends BaseController {
 
     private final PostService postService;
 
+    private final CategoryService categoryService;
+
     @Autowired
-    public TagsController(TagService tagService, PostService postService) {
+    public TagsController(TagService tagService,
+                          PostService postService,
+                          CategoryService categoryService) {
         this.tagService = tagService;
         this.postService = postService;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -51,6 +57,19 @@ public class TagsController extends BaseController {
         // 所有标签
         final List<Tag> tags = tagService.findAllTags();
         model.addAttribute("tags", tags);
+
+        // 查询文章条数
+        final Integer postCount = postService.findAllPosts(SourConst.POST_TYPE_POST).size();
+        model.addAttribute("postCount", postCount);
+
+        // 查询分类条数
+        final Integer categoryCount = categoryService.findAllCategories().size();
+        model.addAttribute("categoryCount", categoryCount);
+
+        // 查询标签条数
+        final Integer tagCount = tagService.findAllTags().size();
+        model.addAttribute("tagCount", tagCount);
+
         return this.render("tags");
     }
 

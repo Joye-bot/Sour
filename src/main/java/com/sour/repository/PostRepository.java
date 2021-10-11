@@ -1,5 +1,6 @@
 package com.sour.repository;
 
+import com.sour.model.domain.Category;
 import com.sour.model.domain.Post;
 import com.sour.model.domain.Tag;
 import org.springframework.data.domain.Page;
@@ -101,4 +102,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     @Query(value = "SELECT YEAR(post_date) AS year,COUNT(*) AS count FROM sour_post WHERE post_status = 0 AND post_type = 'post' GROUP BY YEAR(post_date) ORDER BY year DESC;", nativeQuery = true)
     List<Object[]> findPostGroupByYear();
+
+    /**
+     * 根据分类查询文章
+     *
+     * @param category 分类
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    Page<Post> findPostsByCategories(Category category, Pageable pageable);
 }

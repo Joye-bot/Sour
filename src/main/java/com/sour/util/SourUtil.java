@@ -17,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Sour工具类
@@ -264,5 +266,94 @@ public class SourUtil {
         } catch (IOException e) {
             log.error("剪裁失败，图片本身尺寸小于需要修剪的尺寸：{}", e.getMessage());
         }
+    }
+
+    /**
+     * 解压zip文件
+     *
+     * @param zipFilePath 压缩文件的路径
+     * @param descDir     解压的路径
+     */
+    public static void unZip(String zipFilePath, String descDir) {
+        File zipFile = new File(zipFilePath);
+        File pathFile = new File(descDir);
+        if (!pathFile.exists()) {
+            pathFile.mkdirs();
+        }
+        ZipFile zip = null;
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            zip = new ZipFile(zipFile);
+            Enumeration<? extends ZipEntry> entries = zip.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                String zipEntryName = entry.getName();
+                in = zip.getInputStream(entry);
+
+                String outPath = (descDir + "/" + zipEntryName).replace("\\*", "/");
+                File file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                if (new File(outPath).isDirectory()) {
+                    continue;
+                }
+                out = new FileOutputStream(outPath);
+                byte[] buf = new byte[4 * 1024];
+                int len;
+                while ((len = in.read(buf)) >= 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+            }
+        } catch (IOException e) {
+            log.error("解压失败：{}", e.getMessage());
+        } finally {
+            try {
+                if (zip != null) {
+                    zip.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                log.error("未知错误：{}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param fileName 文件名称
+     * @return boolean ture or false
+     */
+    public static boolean removeFile(String fileName) {
+        File file = new File(fileName);
+        return file.exists() && file.delete();
+    }
+
+    /**
+     * 删除非空文件夹
+     *
+     * @param dir dir
+     * @return boolean
+     */
+    public static boolean removeDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = removeDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
     }
 }

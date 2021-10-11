@@ -11,7 +11,7 @@ public abstract class BaseController {
     /**
      * 定义默认主题
      */
-    public static String THEME = "default";
+    public static String THEME = "Kaze";
 
     /**
      * 根据主题名称渲染页面

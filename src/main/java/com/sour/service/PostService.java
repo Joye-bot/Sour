@@ -1,5 +1,6 @@
 package com.sour.service;
 
+import com.sour.model.domain.Category;
 import com.sour.model.domain.Post;
 import com.sour.model.domain.Tag;
 import com.sour.model.dto.Archive;
@@ -127,4 +128,21 @@ public interface PostService {
      * @return {@link List}<{@link Archive}>
      */
     List<Archive> findPostGroupByYear();
+
+    /**
+     * 批量修改摘要
+     *
+     * @param postSummary 文章摘要
+     */
+    void updateAllSummary(Integer postSummary);
+
+
+    /**
+     * 根据分类查询文章
+     *
+     * @param category 分类
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    Page<Post> findPostsByCategories(Category category, Pageable pageable);
 }

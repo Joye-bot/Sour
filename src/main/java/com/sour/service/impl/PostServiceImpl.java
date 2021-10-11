@@ -1,11 +1,13 @@
 package com.sour.service.impl;
 
+import com.sour.model.domain.Category;
 import com.sour.model.domain.Post;
 import com.sour.model.domain.Tag;
 import com.sour.model.dto.Archive;
 import com.sour.model.dto.SourConst;
 import com.sour.repository.PostRepository;
 import com.sour.service.PostService;
+import com.sour.util.SourUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -200,5 +202,33 @@ public class PostServiceImpl implements PostService {
             archives.add(archive);
         }
         return archives;
+    }
+
+    /**
+     * 批量修改文章摘要
+     *
+     * @param postSummary 文章摘要
+     */
+    @Override
+    public void updateAllSummary(Integer postSummary) {
+        List<Post> posts = this.findAllPosts(SourConst.POST_TYPE_POST);
+        for (Post post : posts) {
+            if (SourUtil.htmlToText(post.getPostContent()).length() >= postSummary) {
+                post.setPostSummary(SourUtil.getSummary(post.getPostContent(), postSummary));
+                postRepository.save(post);
+            }
+        }
+    }
+
+    /**
+     * 根据分类查询文章
+     *
+     * @param category 分类
+     * @param pageable 可分页
+     * @return {@link Page}<{@link Post}>
+     */
+    @Override
+    public Page<Post> findPostsByCategories(Category category, Pageable pageable) {
+        return postRepository.findPostsByCategories(category, pageable);
     }
 }

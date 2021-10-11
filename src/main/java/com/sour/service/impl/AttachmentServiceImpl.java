@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 附件业务逻辑层实现类
@@ -56,5 +57,31 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public Attachment saveByAttachment(Attachment attachment) {
         return attachmentRepository.save(attachment);
+    }
+
+    /**
+     * 根据附件编号查询附件
+     *
+     * @param attachId 附件编号
+     * @return {@link Optional}<{@link Attachment}>
+     */
+    @Override
+    public Optional<Attachment> findByAttachId(Long attachId) {
+        return attachmentRepository.findById(attachId);
+    }
+
+    /**
+     * 根据编号移除附件
+     * @param attachId 附件编号
+     * @return {@link Attachment}
+     */
+    @Override
+    public Attachment removeByAttachId(Long attachId) {
+        final Optional<Attachment> attachment = this.findByAttachId(attachId);
+        if (attachment.isPresent()) {
+            attachmentRepository.delete(attachment.get());
+            return attachment.get();
+        }
+        return null;
     }
 }

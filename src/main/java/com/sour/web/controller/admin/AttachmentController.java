@@ -8,7 +8,6 @@ import com.sour.service.AttachmentService;
 import com.sour.service.LogsService;
 import com.sour.util.SourUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 附件控制器
@@ -117,7 +118,7 @@ public class AttachmentController {
     }
 
     public Map<String, Object> uploadAttachment(MultipartFile file, HttpServletRequest request) {
-        final Map<String, Object> result = new HashMap<>(10);
+        final Map<String, Object> result = new HashMap<>();
         if (!file.isEmpty()) {
             try {
                 final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
@@ -186,5 +187,74 @@ public class AttachmentController {
     private void updateConst() {
         SourConst.ATTACHMENTS.clear();
         SourConst.ATTACHMENTS = attachmentService.findAllAttachments();
+    }
+
+    /**
+     * 处理获取附件详情的请求
+     *
+     * @param model    模型
+     * @param attachId 附件编号
+     * @return {@link String}
+     */
+    @GetMapping(value = "/attachment")
+    public String attachmentDetail(Model model, @PathParam("attachId") Long attachId) {
+        final Optional<Attachment> attachment = attachmentService.findByAttachId(attachId);
+        attachment.ifPresent(value -> model.addAttribute("attachment", value));
+
+        // 设置选项
+        model.addAttribute("options", SourConst.OPTIONS);
+        return "admin/widget/_attachment-detail";
+    }
+
+    /**
+     * 移除附件的请求
+     *
+     * @param attachId 附件编号
+     * @param request  请求
+     * @return boolean true：y移除附件成功，false：移除附件失败
+     */
+    @GetMapping(value = "/remove")
+    @ResponseBody
+    public boolean removeAttachment(@PathParam("attachId") Long attachId, HttpServletRequest request) {
+        Optional<Attachment> attachment = attachmentService.findByAttachId(attachId);
+        String delFileName = attachment.get().getAttachName();
+        String delSmallFileName = delFileName.substring(0, delFileName.lastIndexOf(".")) + "_small" + attachment.get().getAttachSuffix();
+        try {
+            // 删除数据库中的内容
+            attachmentService.removeByAttachId(attachId);
+            // 刷新SourConst变量
+            updateConst();
+            // 删除文件
+            File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            File mediaPath = new File(basePath.getAbsolutePath(), attachment.get().getAttachPath().substring(0, attachment.get().getAttachPath().lastIndexOf('/')));
+            File delFile = new File(mediaPath.getAbsolutePath() + "/" + delFileName);
+            File delSmallFile = new File(mediaPath.getAbsolutePath() + "/" + delSmallFileName);
+
+
+            BufferedImage sourceImg = ImageIO.read(new FileInputStream(delFile));
+            if (sourceImg.getWidth() > 500 && sourceImg.getHeight() > 500) {
+                if (delSmallFile.exists()) {
+                    if (delSmallFile.delete()) {
+                        updateConst();
+                    }
+                }
+            }
+            if (delFile.exists() && delFile.isFile()) {
+                if (delFile.delete()) {
+                    updateConst();
+                    log.info("删除文件[{}]成功！", delFileName);
+                    logsService.saveByLogs(
+                            new Logs(LogsRecord.REMOVE_FILE, delFileName, SourUtil.getIpAddr(request), SourUtil.getDate())
+                    );
+                } else {
+                    log.error("删除附件[{}]失败", delFileName);
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            log.error("删除附件[{}]失败！：{}", delFileName, e.getMessage());
+            return false;
+        }
+        return true;
     }
 }

@@ -2,8 +2,6 @@
     <#include "module/_macro.ftl">
     <@head title="${options.blog_title} | Sour后台管理-附件"></@head>
 
-    <!-- Ekko Lightbox -->
-    <link rel="stylesheet" href="/static/plugins/ekko-lightbox/ekko-lightbox.css">
     <!-- bootstrap file input -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/css/fileinput.min.css">
     <!-- Bootstrap Icons -->
@@ -48,7 +46,7 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-12" id="accordion">
+                        <div class="col-12" id="accordionOne">
                             <div class="card card-default">
 
                                 <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
@@ -57,13 +55,14 @@
                                     </div>
                                 </a>
 
-                                <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                <div id="collapseOne" class="collapse" data-parent="#accordionOne">
                                     <div class="content container-fluid">
                                         <div class="row" id="uploadForm">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <div class="file-loading">
-                                                        <input id="uploadImg" class="file-loading" type="file" multiple name="file">
+                                                        <input id="uploadImg" class="file-loading" type="file" multiple
+                                                               name="file">
                                                     </div>
                                                 </div>
                                             </div>
@@ -71,20 +70,20 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
-                                    <div class="row">
-                                        <#list attachments.content as attachment>
-                                            <div class="col-sm-2">
-                                                <a href="${attachment.attachSmallPath}"
-                                                   data-toggle="lightbox" data-titl="sample 1 - white"
-                                                   data-gallery="gallery">
-                                                    <img src="${attachment.attachSmallPath!}"
-                                                         class="img-fluid mb-2" alt="white sample">
-                                                </a>
-                                            </div>
-                                        </#list>
+                                <#if attachments.content?size gt 0>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <#list attachments.content as attachment>
+                                                <div class="col-sm-2" onclick="openDetail(${attachment.attachId});">
+                                                    <a href="#">
+                                                        <img src="${attachment.attachSmallPath!}"
+                                                             class="img-fluid mb-2" alt="">
+                                                    </a>
+                                                </div>
+                                            </#list>
+                                        </div>
                                     </div>
-                                </div>
+                                </#if>
 
                             </div>
                         </div>
@@ -111,25 +110,27 @@
 
     </div>
 
-    <!-- Ekko Lightbox -->
-    <script src="/static/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
-    <!-- Filterizr -->
-    <script src="/static/plugins/filterizr/filterizr.min.js"></script>
     <!-- bootstrap file input -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.2.6/js/locales/zh.js"></script>
+    <!-- layer -->
+    <script src="/static/plugins/layer/layer.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
 
     <script>
-        $(function () {
-            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
-                event.preventDefault();
-                $(this).ekkoLightbox({
-                    alwaysShowClose: true
-                });
+        function openDetail(id) {
+            layer.open({
+                type: 2,
+                title: '附件详情',
+                maximum: true,
+                shadeClose: true,
+                shade: 0.5,
+                area: ['90%', '90%'],
+                content: '/admin/attachments/attachment?attachId=' + id,
+                scrollbar: false
             });
-        });
+        }
 
         $(document).ready(function () {
             loadFileInput();
@@ -152,8 +153,8 @@
                 showClose: false
             }).on("fileuploaded", function (event, data, previewId, index) {
                 const dataJson = data.jqXHR.responseJSON;
-                if (dataJson.success === "1") {
                     $("#uploadForm").hide(400);
+                if (dataJson.success === 1) {
                     Swal.fire({
                         toast: true,
                         timer: 2000,

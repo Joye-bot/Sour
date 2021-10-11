@@ -6,7 +6,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # MySql配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/sourdb?serverTimezone=UTC&characterEncoding=utf8&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+    url: jdbc:mysql://127.0.0.1:3306/sourdb?serverTimezone=UTC&characterEncoding=utf8
     username: root
     password: yrO,cl:#x7y8
   # JPA配置
@@ -27,6 +27,7 @@ spring:
     expose-session-attributes: false
     expose-spring-macro-helpers: false
     suffix: .ftl
+    template-loader-path: classpath:/templates
   servlet:
     multipart:
       max-file-size: 10MB

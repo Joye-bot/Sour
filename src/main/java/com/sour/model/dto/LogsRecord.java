@@ -23,4 +23,8 @@ public interface LogsRecord {
     String CHANGE_THEME = "更换主题";
 
     String UPLOAD_FILE = "上传附件";
+
+    String REMOVE_FILE = "移除附件";
+
+    String UPLOAD_THEME = "上传主题";
 }

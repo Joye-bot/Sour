@@ -174,7 +174,7 @@
             width: "100%",
             height: 640,
             syncScrolling: "single",
-            path: "../../static/plugins/editor.md/lib/",
+            path: "/static/plugins/editor.md/lib/",
             saveHTMLToTextarea: true,
             // 上传图片配置
             imageUpload: true,

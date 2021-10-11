@@ -114,7 +114,8 @@
                                             <div class="form-group col-sm-6">
                                                 <label for="blogLogo">Logo：</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="blogLogo" name="blog_logo"
+                                                    <input type="text" class="form-control" id="blogLogo"
+                                                           name="blog_logo"
                                                            data-bs-target="#logo" value="${options.blog_logo!}">
                                                     <div class="input-group-append" data-bs-target="#logo"
                                                          data-toggle="datetimepicker" onclick="openAttach('blogLogo')">
@@ -126,7 +127,8 @@
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="footerInfo">页脚信息：</label>
-                                                <textarea class="form-control" rows="5" id="blogFooterInfo" name="blog_footer_info"
+                                                <textarea class="form-control" rows="5" id="blogFooterInfo"
+                                                          name="blog_footer_info"
                                                           style="resize: none;">${options.blog_footer_info!}</textarea>
                                             </div>
                                             <div class="card-footer">
@@ -164,7 +166,9 @@
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                        onclick="saveOptions('seo-settings');">保存
+                                                </button>
                                             </div>
                                         </form>
 
@@ -175,43 +179,32 @@
                                             <div class="form-group col-sm-6">
                                                 <label for="indexPosts">首页显示条数：</label>
                                                 <input type="text" class="form-control" id="indexPosts"
-                                                       placeholder="">
+                                                       name="index_posts"
+                                                       value="${options.index_posts!'10'}">
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="rssPosts">RSS显示条数：</label>
-                                                <input type="text" class="form-control" id="rssPosts"
-                                                       placeholder="">
+                                                <input type="text" class="form-control" id="rssPosts" name="rss_posts"
+                                                       value="${options.rss_posts!}">
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label for="postSummary">文章摘要字数：</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" id="postSummary"
-                                                           data-bs-target="#logo">
+                                                           name="post_summary"
+                                                           data-bs-target="#logo" value="${options.post_summary!'50'}">
                                                     <div class="input-group-append" data-bs-target="#logo"
-                                                         data-toggle="datetimepicker" onclick="openAttach()">
+                                                         data-toggle="datetimepicker" onclick="updateAllSummary();">
                                                         <button class="btn btn-default" type="button">
                                                             更新
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="sharePost" class="col-sm-2">文章分享：</label>
-                                                <div class="col-sm-4">
-                                                    <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="sharePost"
-                                                               name="share_post" value="true">
-                                                        <label class="form-check-label">开启</label>
-                                                    </div>
-                                                    <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="sharePost"
-                                                               name="share_post" value="false">
-                                                        <label class="form-check-label">关闭</label>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                        onclick="saveOptions('post-settings');">保存
+                                                </button>
                                             </div>
                                         </form>
 
@@ -363,13 +356,11 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-check-inline">
                                                         <input class="form-check-input" type="radio" name="admin_pjax"
-                                                               id="adminPjax"
                                                                value="true">
                                                         <label class="form-check-label">启动</label>
                                                     </div>
                                                     <div class="form-check-inline">
                                                         <input class="form-check-input" type="radio" name="admin_pjax"
-                                                               id="adminPjax"
                                                                value="false">
                                                         <label class="form-check-label">禁用</label>
                                                     </div>
@@ -379,13 +370,13 @@
                                                 <label for="adminLayout" class="col-sm-2">后台布局：</label>
                                                 <div class="col-sm-4">
                                                     <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="adminLayout"
-                                                               name="admin_layout" value="true">
+                                                        <input class="form-check-input" type="radio" name="admin_layout"
+                                                               value="" ${((options.admin_layout!'')=='')?string('checked','')}>
                                                         <label class="form-check-label">正常布局</label>
                                                     </div>
                                                     <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="adminLayout"
-                                                               name="admin_layout" value="layout-boxed">
+                                                        <input class="form-check-input" type="radio" name="admin_layout"
+                                                               value="layout-boxed" ${((options.admin_layout!'')=='layout-boxed')?string('checked','')}>
                                                         <label class="form-check-label">盒子布局</label>
                                                     </div>
                                                 </div>
@@ -408,13 +399,13 @@
                                                 <label for="sidebarStyle" class="col-sm-2">侧边栏样式：</label>
                                                 <div class="col-sm-4">
                                                     <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="sidebarStyle"
-                                                               name="sidebar_style" value="true">
+                                                        <input class="form-check-input" type="radio" name="sidebar_style"
+                                                               value="" ${((options.sidebar_style!'')=='')?string('checked','')}>
                                                         <label class="form-check-label">展开</label>
                                                     </div>
                                                     <div class="form-check-inline">
-                                                        <input class="form-check-input" type="radio" id="sidebarStyle"
-                                                               name="sidebar_style" value="layout-boxed">
+                                                        <input class="form-check-input" type="radio" name="sidebar_style"
+                                                               value="sidebar-collapse" ${((options.sidebar_style!'')=='sidebar-collapse')?string('checked','')}>
                                                         <label class="form-check-label">收拢</label>
                                                     </div>
                                                 </div>
@@ -436,7 +427,9 @@
                                                 </select>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary btn-sm">保存</button>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                        onclick="saveOptions('backstage-settings');">保存
+                                                </button>
                                             </div>
                                         </form>
 
@@ -531,6 +524,23 @@
                 content: '/admin/attachments/select?id=' + id,
                 scrollbar: false
             });
+        }
+
+        function updateAllSummary() {
+            $.ajax({
+                type: 'get',
+                url: '/admin/posts/updateSummary',
+                data: {
+                    postSummary: $('#postSummary').val()
+                },
+                success: function (data) {
+                    if (data === true) {
+                        showMsg("所有文章闪耀更新成功！", "success", 1000);
+                    } else {
+                        showMsg("更新失败！", "error", 2000);
+                    }
+                }
+            })
         }
 
         function saveOptions(option) {

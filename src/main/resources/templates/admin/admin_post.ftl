@@ -134,11 +134,24 @@
                                                 <td>
                                                     <#switch post.postStatus>
                                                         <#case 0>
-                                                            <a class="btn btn-xs btn-primary" href="#">预览</a>
-                                                            <a class="btn btn-xs btn-info" href="#">修改</a>
+                                                            <a class="btn btn-xs btn-primary"
+                                                               href="/archives/${post.postUrl}" target="_blank">查看</a>
+                                                            <a class="btn btn-xs btn-info"
+                                                               href="/admin/posts/edit?postId=${post.postId}">修改</a>
                                                             <button class="btn btn-xs btn-danger"
                                                                     onclick="modelShow('/admin/posts/throw?postId=${post.postId}','确定移到回收站？')">
                                                                 丢弃
+                                                            </button>
+                                                            <#break >
+                                                        <#case 1>
+                                                            <a class="btn btn-xs btn-primary"
+                                                               href="/admin/posts/view?postId=${post.postId}"
+                                                               target="_blank">预览</a>
+                                                            <a class="btn btn-xs btn-info"
+                                                               href="/admin/posts/edit?postId=${post.postId}">修改</a>
+                                                            <button class="btn btn-xs btn-danger"
+                                                                    onclick="modelShow('/admin/posts/revert?postId=${post.postId}&status=1','确定发布该文章？')">
+                                                                发布
                                                             </button>
                                                             <#break >
                                                         <#case 2>

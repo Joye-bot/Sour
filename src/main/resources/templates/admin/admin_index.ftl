@@ -82,7 +82,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">建立天数</span>
-                                <span class="info-box-number">93,139</span>
+                                <span class="info-box-number" id="blogStart">1</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -238,6 +238,14 @@
 <script src="/static/plugins/layer/layer.js"></script>
 <@compress single_line=true>
     <script>
+        $(document).ready(function () {
+            const dateBegin = new Date("${options.blog_start!'0000-00-00'}");
+            const dateEnd = new Date();
+            const parseDate = dateEnd.getTime() - dateBegin.getTime();
+            const days = Math.floor(parseDate / (24 * 3600 * 1000));
+            $('#blogStart').html(days + 1);
+        });
+
         function openAllLogs() {
             layer.open({
                 type: 2,

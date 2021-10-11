@@ -8,6 +8,7 @@ import com.sour.service.LogsService;
 import com.sour.service.PostService;
 import com.sour.service.TagService;
 import com.sour.util.SourUtil;
+import com.sour.web.controller.core.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping(value = "/admin/posts")
 @Slf4j
-public class PostController {
+public class PostController extends BaseController {
 
     private final PostService postService;
 
@@ -179,7 +180,7 @@ public class PostController {
         } catch (Exception e) {
             log.error("未知错误：{}", e.getMessage());
         }
-        return "redirect:/admin/post?status=" + status;
+        return "redirect:/admin/posts?status=" + status;
     }
 
     /**
@@ -206,5 +207,53 @@ public class PostController {
         }
 
         return "redirect:/admin/page";
+    }
+
+    /**
+     * 更新所有摘要
+     *
+     * @param postSummary 文章摘要字数
+     * @return boolean true：更新成功，false：更新失败
+     */
+    @GetMapping(value = "/updateSummary")
+    @ResponseBody
+    public boolean updateSummary(@PathParam("postSummary") Integer postSummary) {
+        try {
+            postService.updateAllSummary(postSummary);
+            return true;
+        } catch (Exception e) {
+            log.error("未知错误：{}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 跳转到编辑文章页面
+     *
+     * @param model  模型
+     * @param postId 文章编号
+     * @return {@link String}
+     */
+    @GetMapping(value = "/edit")
+    public String editPost(Model model, @PathParam("postId") Long postId) {
+        final Optional<Post> post = postService.findByPostId(postId);
+        post.ifPresent(value -> model.addAttribute("post", value));
+        final List<Category> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
+        return "admin/admin_post_md_editor";
+    }
+
+    /**
+     * 处理预览文章的请求
+     *
+     * @param model  模型
+     * @param postId 文章编号
+     * @return {@link String}
+     */
+    @GetMapping(value = "/view")
+    public String viewPost(Model model, @PathParam("postId") Long postId) {
+        final Optional<Post> post = postService.findByPostId(postId);
+        post.ifPresent(value -> model.addAttribute("post", value));
+        return this.render("post");
     }
 }

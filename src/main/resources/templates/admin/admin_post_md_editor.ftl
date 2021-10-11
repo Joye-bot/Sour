@@ -71,8 +71,7 @@
                                 <div class="form-group">
                                     <!-- editor.md -->
                                     <div id="markdown-editor">
-                                        <textarea
-                                                style="display: none;"><#if post??>${post.postContentMd!}</#if></textarea>
+                                        <textarea style="display: none;"><#if post??>${post.postContentMd!}</#if></textarea>
                                     </div>
                                 </div>
                             </div>
