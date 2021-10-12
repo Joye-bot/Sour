@@ -8,6 +8,8 @@ package com.sour.model.dto;
  */
 public interface LogsRecord {
 
+    String INSTALL = "初始化博客";
+
     String LOGIN = "登录后台";
 
     String LOGIN_SUCCESS = "登录成功";

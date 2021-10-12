@@ -2,6 +2,11 @@
 <@head title="${options.blog_title!'Kaze'}"></@head>
 
 <link href="/Kaze/source/js/lib/lightbox/baguetteBox.min.css" rel="stylesheet">
+<script>
+    // document.getElementById('pre').setAttribute("class", "language-bash");
+    // document.getElementById('code').setAttribute("class", "language-bash");
+    document.getElementsByTagName('code')[0].classList.add("language-bash");
+</script>
 
 <div class="wrapper">
 

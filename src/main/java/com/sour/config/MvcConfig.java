@@ -1,5 +1,6 @@
 package com.sour.config;
 
+import com.sour.web.interceptor.InstallInterceptor;
 import com.sour.web.interceptor.LoginInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,12 @@ public class MvcConfig implements WebMvcConfigurer {
 
     private final LoginInterceptor loginInterceptor;
 
+    private final InstallInterceptor installInterceptor;
+
     @Autowired
-    public MvcConfig(LoginInterceptor loginInterceptor) {
+    public MvcConfig(LoginInterceptor loginInterceptor,InstallInterceptor installInterceptor) {
         this.loginInterceptor = loginInterceptor;
+        this.installInterceptor = installInterceptor;
     }
 
 
@@ -43,6 +47,11 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login")
                 .excludePathPatterns("/admin/getLogin")
+                .excludePathPatterns("/static/**");
+        registry.addInterceptor(installInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/install")
+                .excludePathPatterns("/install/do")
                 .excludePathPatterns("/static/**");
     }
 
