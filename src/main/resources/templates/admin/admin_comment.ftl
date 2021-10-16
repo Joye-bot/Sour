@@ -53,23 +53,23 @@
                             <div class="card-body p-0">
                                 <ul class="nav nav-pills flex-column">
                                     <li class="nav-item active">
-                                        <a href="#" class="nav-link">
+                                        <a data-pja="true" href="/admin/comments" class="nav-link">
                                             <i class="fas fa-inbox"></i> 已发布
-                                            <span class="badge bg-primary float-right">12</span>
+                                            <span class="badge bg-primary float-right">${publicCount!"0"}</span>
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a data-pjax="true" href="/admin/comments?status=1" class="nav-link">
                                             <i class="far fa-file-alt"></i> 待审核
-                                            <span class="badge bg-warning float-right">12</span>
+                                            <span class="badge bg-warning float-right">${checkCount!"0"}</span>
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a data-pjax="true" href="/admin/comments?status=2" class="nav-link">
                                             <i class="far fa-trash-alt"></i> 回收站
-                                            <span class="badge bg-danger float-right">12</span>
+                                            <span class="badge bg-danger float-right">${trashCount!"0"}</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -99,40 +99,86 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>User</td>
-                                        <td>
-                                            <label style="font-weight: normal;">测试评论</label>
-                                        </td>
-                                        <td>
-                                            <a href="#" target="_blank">Java基础教程</a>
-                                        </td>
-                                        <td>2021-07-22</td>
-                                        <td>
-                                            <a class="btn btn-xs btn-info" href="#">回复</a>
-                                            <a class="btn btn-xs btn-danger" href="#">丢弃</a>
-                                        </td>
-                                    </tr>
+                                    <#if comments.content?size gt 0>
+                                        <#list comments.content as comment>
+                                            <tr>
+                                                <td>
+                                                    <a href="${comment.commentAuthorUrl!}"
+                                                       target="_blank">${comment.commentAuthor}</a>
+                                                </td>
+                                                <td>
+                                                    <label style="font-weight: normal;">${comment.commentContent}</label>
+                                                </td>
+                                                <td>
+                                                    <a href="/archives/${comment.post.postUrl}"
+                                                       target="_blank">${comment.post.postTitle}</a>
+                                                </td>
+                                                <td>${comment.commentDate?string("yyyy-MM-dd")}</td>
+                                                <td>
+                                                    <#switch comment.commentStatus>
+                                                        <#case 0>
+                                                            <button class="btn btn-xs btn-info"
+                                                                    onclick="replyShow('${comment.commentId}','${comment.post.postId}');">
+                                                                回复
+                                                            </button>
+                                                            <button class="btn btn-xs btn-danger"
+                                                                    onclick="modelShow('/admin/comments/throw?commentId=${comment.commentId}','确定移动到回收站？');">
+                                                                丢弃
+                                                            </button>
+                                                            <#break >
+                                                        <#case 1>
+                                                            <a data-pjax="true" class="btn btn-xs btn-primary"
+                                                               href="/admin/comments/revert?commentId=${comment.commentId}&status=1">通过</a>
+                                                            <button class="btn btn-xs btn-info"
+                                                                    onclick="replyShow('${comment.commentId}','${comment.post.postId}');">
+                                                                回复
+                                                            </button>
+                                                            <button class="btn btn-xs btn-danger"
+                                                                    onclick="modelShow('/admin/comments/throw?commentId=${comment.commentId}','确定移到回收站?');">
+                                                                丢弃
+                                                            </button>
+                                                            <#break >
+                                                        <#case 2>
+                                                            <a data-pjax="true" class="btn btn-xs btn-primary"
+                                                               href="/admin/comments/revert?commentId=${comment.commentId}&status=2">还原</a>
+                                                            <button class="btn btn-xs btn-danger"
+                                                                    onclick="modelShow('/admin/comments/remove?commentId=${comment.commentId}&status=2','确定要永久删除？');">
+                                                                删除
+                                                            </button>
+                                                            <#break >
+                                                    </#switch>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </#if>
                                     </tbody>
                                 </table>
                             </div>
 
                             <div class="card-footer clearfix">
-                                <h3 class="card-title">第1页</h3>
+                                <h3 class="card-title">第${comments.number+1}/${comments.totalPages}页</h3>
 
                                 <div class="card-tools">
                                     <ul class="pagination pagination-sm m-0 float-right">
                                         <li class="page-item">
-                                            <a class="btn btn-sm btn-default" href="#">«</a>
+                                            <a data-pjax="true"
+                                               class="page-link <#if !comments.hasPrevious()>disabled</#if>"
+                                               href="/admin/comments?status=${status}">&laquo;</a>
                                         </li>
                                         <li class="page-item">
-                                            <a class="btn btn-sm btn-default" href="#">2</a>
+                                            <a data-pjax="true"
+                                               class="page-link <#if !comments.hasPrevious()>disabled</#if>"
+                                               href="/admin/comments?status=${status}&page=${comments.number-1}">&lt;</a>
                                         </li>
                                         <li class="page-item">
-                                            <a class="btn btn-sm btn-default" href="#">3</a>
+                                            <a data-pjax="true"
+                                               class="page-link <#if !comments.hasNext()>disabled</#if>"
+                                               href="/admin/comments?status=${status}&page=${comments.number+1}">&gt;</a>
                                         </li>
                                         <li class="page-item">
-                                            <a class="btn btn-sm btn-default" href="#">»</a>
+                                            <a data-pjax="true"
+                                               class="page-link <#if !comments.hasNext()>disabled</#if>"
+                                               href="/admin/comments?status=${status}$page=${comments.totalPages-1}">&raquo;</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -144,6 +190,61 @@
                 </div>
             </div>
         </section>
+
+        <!-- 删除确认弹出层 -->
+        <div class="modal fade" id="removeCommentModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">提示信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="message"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="url">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+                        <a onclick="removeIt()" class="btn btn-sm btn-danger" data-dismiss="modal">确定</a>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- 回复弹出层 -->
+        <div class="modal fade" id="commentReplyModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">提示信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" action="/admin/comments/reply">
+                        <div class="modal-body">
+                            <textarea class="form-control" rows="5" id="commentContent"
+                                      name="commentContent" style="resize: none;"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="commentId" name="commentId" value="">
+                            <input type="hidden" id="userAgent" name="userAgent" value="">
+                            <input type="hidden" id="postId" name="postId" value="">
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-sm btn-danger">确定</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+
     </div>
     <!-- /.content-wrapper -->
 
@@ -151,4 +252,24 @@
     <#include "module/_footer.ftl">
 
 </div>
+
+<script>
+    function removeIt() {
+        window.location.href = $.trim($("#url").val());
+    }
+
+    function replyShow(commentId, postId) {
+        $('#userAgent').val(navigator.userAgent);
+        $('#commentId').val(commentId);
+        $('#postId').val(postId);
+        $('#commentReplyModal').modal();
+    }
+
+    function modelShow(url, message) {
+        $('#url').val(url);
+        $('#message').html(message);
+        $('#removeCommentModal').modal();
+    }
+</script>
+
 <@footer></@footer>

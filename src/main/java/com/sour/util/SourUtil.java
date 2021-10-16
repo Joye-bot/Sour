@@ -1,6 +1,7 @@
 package com.sour.util;
 
 import com.sour.model.dto.Theme;
+import io.github.biezhi.ome.OhMyEmail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
 
@@ -15,6 +16,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -355,5 +357,30 @@ public class SourUtil {
         }
         // 目录此时为空，可以删除
         return dir.delete();
+    }
+
+    /**
+     * 配置邮件
+     *
+     * @param smtpHost smtpHost
+     * @param userName 邮件地址
+     * @param password 密码
+     */
+    public static void configMail(String smtpHost, String userName, String password) {
+        Properties properties = OhMyEmail.defaultConfig(false);
+        properties.setProperty("mail.smtp.host", smtpHost);
+        OhMyEmail.config(properties, userName, password);
+    }
+
+    /**
+     * 获取当前时间
+     *
+     * @param format 格式
+     * @return {@link String}
+     */
+    public static String getStringDate(String format) {
+        final SimpleDateFormat formatter = new SimpleDateFormat(format);
+        final String dateString = formatter.format(new Date());
+        return dateString;
     }
 }
